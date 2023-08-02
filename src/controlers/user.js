@@ -131,6 +131,26 @@ async function findUsers(req, res) {
     return res.status(400).json(error.message);
   }
 }
+async function deleteUser(req, res) {
+  const { userId } = req.body;
+
+  try {
+    const selectQuery = "SELECT * FROM usuarios WHERE id = $1";
+    const { rows } = await connection.query(selectQuery, [userId]);
+
+    const deleteQueryPainelDados =
+      "DELETE FROM painel_dados WHERE id_usuario = $1";
+    await connection.query(deleteQueryPainelDados, [userId]);
+
+    const queryUsuario = "DELETE FROM usuarios WHERE id = $1";
+    await connection.query(queryUsuario, [userId]);
+    delete rows[0].senha;
+    return res.status(200).json(rows);
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+}
+
 async function findOneUser(req, res) {
   const { userId } = req.body;
 
@@ -198,4 +218,5 @@ module.exports = {
   updateUser,
   findUsers,
   findOneUser,
+  deleteUser,
 };
