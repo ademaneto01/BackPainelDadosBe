@@ -10,7 +10,9 @@ router.post("/login", users.userLogin);
 
 router.use(validateToken);
 
-router.post("/finUrl", auxiaryFunction.findDadosUser);
+router.post("/findOneUser", users.findOneUser);
+router.get("/findUsers", users.findUsers);
+router.get("/finUrl", auxiaryFunction.findDadosUser);
 router.put("/update", users.updateUser);
 
 module.exports = router;

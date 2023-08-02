@@ -15,8 +15,8 @@ DROP TABLE if exists painel_dados;
 CREATE TABLE painel_dados (
     id serial primary key,
     url_dados varchar(100),
-    time_stamp varchar(100),
-    id_usuario integer REFERENCES usuarios(id)
+    time_stamp text,
+    usuarios_id integer REFERENCES usuarios(id)
 );
 
 

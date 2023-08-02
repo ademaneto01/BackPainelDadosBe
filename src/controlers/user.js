@@ -34,19 +34,15 @@ async function registerUser(req, res) {
         .status(400)
         .json({ mensagem: "Não foi possivel cadastrar o usuário." });
     } else {
-      const timestamp = Date.now();
+      // const timestamp = Date.now();
       const queryFindEmailUser = "SELECT * FROM usuarios WHERE email = $1";
       const { rows } = await connection.query(queryFindEmailUser, [email]);
 
       const idDoUsuario = rows[0].id;
 
       const queryInsertDados =
-        "INSERT INTO painel_dados ( url_dados, time_stamp, usuario_id) VALUES ($1, $2, $3) RETURNING *";
-      await connection.query(queryInsertDados, [
-        url_dados,
-        timestamp,
-        idDoUsuario,
-      ]);
+        "INSERT INTO painel_dados ( url_dados, id_usuario) VALUES ($1, $2) RETURNING *";
+      await connection.query(queryInsertDados, [url_dados, idDoUsuario]);
     }
 
     delete registredUser.senha;
@@ -84,21 +80,71 @@ async function userLogin(req, res) {
       return res
         .status(400)
         .json({ mensagem: "Usuário e/ou senha inválido(s)" });
-    }
+    } else {
+      const timestamp = Date.now();
 
+      const queryGetTimestamp =
+        "SELECT * FROM painel_dados WHERE id_usuario = $1";
+      const result = await connection.query(queryGetTimestamp, [userData.id]);
+
+      const currentTimestamp = result.rows[0].time_stamp;
+
+      const newTimestamp = currentTimestamp
+        ? `${currentTimestamp}, ${timestamp}`
+        : timestamp;
+
+      const queryUpdateTimestamp =
+        "UPDATE painel_dados SET time_stamp = $1 WHERE id_usuario = $2";
+      await connection.query(queryUpdateTimestamp, [newTimestamp, userData.id]);
+    }
+    delete userData.senha;
     const token = jwt.sign(
       {
         id: userData.id,
       },
       jwtSecret
     );
-
-    return res.status(200).json({ usuario: userData, token: token });
+    const data = [
+      {
+        id: userData.id,
+        nome: userData.nome,
+        email: userData.email,
+        perfil: userData.perfil,
+        token,
+      },
+    ];
+    return res.status(200).json(data);
   } catch (error) {
     return res.status(400).json(error.message);
   }
 }
 
+async function findUsers(req, res) {
+  try {
+    const query = "SELECT * FROM usuarios";
+    const { rows, rowCount: user } = await connection.query(query);
+
+    const userData = rows;
+
+    return res.status(200).json(userData);
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+}
+async function findOneUser(req, res) {
+  const { userId } = req.body;
+
+  try {
+    const query = "SELECT * FROM usuarios WHERE id = $1";
+    const { rows, rowCount: user } = await connection.query(query, [userId]);
+
+    const userData = rows[0];
+    delete userData.senha;
+    return res.status(200).json(rows);
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+}
 async function updateUser(req, res) {
   const { user } = req;
   const { nome, email, senha, profile } = req.body;
@@ -150,4 +196,6 @@ module.exports = {
   registerUser,
   userLogin,
   updateUser,
+  findUsers,
+  findOneUser,
 };

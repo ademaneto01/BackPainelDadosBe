@@ -6,12 +6,10 @@ async function validateToken(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization || authorization === "Bearer") {
-    return res
-      .status(401)
-      .json({
-        mensagem:
-          "Para acessar este recurso um token de autenticação válido deve ser enviado.",
-      });
+    return res.status(401).json({
+      mensagem:
+        "Para acessar este recurso um token de autenticação válido deve ser enviado.",
+    });
   }
 
   try {
@@ -23,12 +21,10 @@ async function validateToken(req, res, next) {
     const user = await connection.query(query, [id]);
 
     if (user.rowCount === 0) {
-      return res
-        .status(400)
-        .json({
-          mensagem:
-            "Para acessar este recurso um token de autenticação válido deve ser enviado.",
-        });
+      return res.status(400).json({
+        mensagem:
+          "Para acessar este recurso um token de autenticação válido deve ser enviado.",
+      });
     }
 
     const userData = user.rows[0];

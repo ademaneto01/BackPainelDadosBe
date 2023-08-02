@@ -1,1 +1,1 @@
-module.exports = "dindinPasswordChecker";
+module.exports = "painelDadosBeJWT";
