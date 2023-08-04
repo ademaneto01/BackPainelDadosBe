@@ -158,9 +158,15 @@ async function findOneUser(req, res) {
   try {
     const query = "SELECT * FROM usuarios WHERE id = $1";
     const { rows, rowCount: user } = await connection.query(query, [userId]);
+    const queryFindUrl =
+      "SELECT url_dados FROM painel_dados WHERE id_usuario = $1";
+
+    const { rows: url_dados } = await connection.query(queryFindUrl, [userId]);
 
     const userData = rows[0];
     delete userData.senha;
+    rows[0].url_dados = url_dados[0].url_dados;
+
     return res.status(200).json(rows);
   } catch (error) {
     return res.status(400).json(error.message);
@@ -168,9 +174,9 @@ async function findOneUser(req, res) {
 }
 async function updateUser(req, res) {
   const { user } = req;
-  const { nome, email, senha, profile, escola } = req.body;
+  const { id, nome, email, senha, perfil, escola, url_dados } = req.body;
 
-  if (!nome || !email || !senha) {
+  if (!nome || !email || !senha || !perfil || !escola || !url_dados) {
     return res
       .status(400)
       .json({ mensagem: "Todos os campos obrigatórios devem ser informados." });
@@ -178,10 +184,10 @@ async function updateUser(req, res) {
 
   try {
     const queryFindEmail =
-      "SELECT * FROM usuarios WHERE email = $1 AND id != $2";
+      "SELECT * FROM usuarios WHERE email = $1  AND id != $2";
     const { rowCount: findedUser } = await connection.query(queryFindEmail, [
       email,
-      user.id,
+      id,
     ]);
 
     if (findedUser > 0) {
@@ -189,26 +195,24 @@ async function updateUser(req, res) {
         mensagem: "Já existe usuário cadastrado com o e-mail informado.",
       });
     }
-
+    const updateDados =
+      "UPDATE painel_dados SET url_dados = $1 WHERE id_usuario = $2";
+    const { row: dados } = await connection.query(updateDados, [url_dados, id]);
     const hash = await bcrypt.hash(senha, 10);
     const query =
-      "UPDATE usuarios SET nome = $1, email = $2, senha = $3, perfil = $4, escola=$5 WHERE id = $5";
-    const { rowCount: updatedUser } = await connection.query(query, [
-      nome,
-      email,
-      hash,
-      profile,
-      escola,
-      user.id,
-    ]);
+      "UPDATE usuarios SET nome = $1, email = $2, senha = $3, perfil = $4, escola=$5 WHERE id = $6";
+    const { rows: update, rowCount: updatedUserNum } = await connection.query(
+      query,
+      [nome, email, hash, perfil, escola, id]
+    );
 
-    if (updatedUser === 0) {
+    if (updatedUserNum === 0) {
       return res
         .status(400)
         .json({ mensagem: "Não foi possivel atualizar o usuário." });
     }
-
-    return res.status(204).json();
+    user.url_dados = url_dados;
+    return res.status(200).json([user]);
   } catch (error) {
     return res.status(400).json(error.message);
   }

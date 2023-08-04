@@ -12,6 +12,6 @@ router.use(validateToken);
 router.post("/findOneUser", users.findOneUser);
 router.get("/findUsers", users.findUsers);
 router.post("/findDadosUser", auxiliaryFunction.findDadosUser);
-router.put("/update", users.updateUser);
+router.post("/update", users.updateUser);
 router.post("/deleteUser", users.deleteUser);
 module.exports = router;
