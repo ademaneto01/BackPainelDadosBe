@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = require("../jwtSecret");
 
 async function registerUser(req, res) {
-  const { nome, email, senha, perfil, url_dados } = req.body;
+  const { nome, email, senha, perfil, url_dados, escola } = req.body;
 
-  if (!nome || !email || !senha || !perfil) {
+  if (!nome || !email || !senha || !perfil || !escola) {
     return res
       .status(400)
       .json({ mensagem: "Todos os campos obrigatórios devem ser informados." });
@@ -24,10 +24,10 @@ async function registerUser(req, res) {
 
     const hash = await bcrypt.hash(senha, 10);
     const query =
-      "INSERT INTO usuarios (nome, email, senha, perfil) VALUES ($1, $2, $3, $4) RETURNING *";
+      "INSERT INTO usuarios (nome, email, senha, perfil, escola) VALUES ($1, $2, $3, $4, $5) RETURNING *";
     const {
       rows: [registredUser],
-    } = await connection.query(query, [nome, email, hash, perfil]);
+    } = await connection.query(query, [nome, email, hash, perfil, escola]);
 
     if (!registredUser) {
       return res
@@ -110,6 +110,7 @@ async function userLogin(req, res) {
         nome: userData.nome,
         email: userData.email,
         perfil: userData.perfil,
+        escola: userData.escola,
         token,
       },
     ];
@@ -167,7 +168,7 @@ async function findOneUser(req, res) {
 }
 async function updateUser(req, res) {
   const { user } = req;
-  const { nome, email, senha, profile } = req.body;
+  const { nome, email, senha, profile, escola } = req.body;
 
   if (!nome || !email || !senha) {
     return res
@@ -191,12 +192,13 @@ async function updateUser(req, res) {
 
     const hash = await bcrypt.hash(senha, 10);
     const query =
-      "UPDATE usuarios SET nome = $1, email = $2, senha = $3, perfil = $4  WHERE id = $5";
+      "UPDATE usuarios SET nome = $1, email = $2, senha = $3, perfil = $4, escola=$5 WHERE id = $5";
     const { rowCount: updatedUser } = await connection.query(query, [
       nome,
       email,
       hash,
       profile,
+      escola,
       user.id,
     ]);
 
