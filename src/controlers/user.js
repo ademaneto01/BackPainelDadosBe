@@ -132,6 +132,19 @@ async function findUsers(req, res) {
     return res.status(400).json(error.message);
   }
 }
+async function findUsersPDG(req, res) {
+  try {
+    const perfil = "Pedagógico";
+    const query = "SELECT * FROM usuarios WHERE perfil = $1 ";
+    const { rows, rowCount: user } = await connection.query(query, [perfil]);
+
+    const userData = rows;
+
+    return res.status(200).json(userData);
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+}
 async function deleteUser(req, res) {
   const { userId } = req.body;
 
@@ -225,4 +238,5 @@ module.exports = {
   findUsers,
   findOneUser,
   deleteUser,
+  findUsersPDG,
 };
