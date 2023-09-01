@@ -29,6 +29,11 @@ router.post(
   auxiliaryFunctionEscola.findEntidadesEscolares
 );
 router.post(
+  "/findEntidadeEscolar",
+  auxiliaryFunctionEscola.findEntidadeEscolar
+);
+
+router.post(
   "/findEntidadesEscolaresUserPDG",
   auxiliaryFunctionEscola.findEntidadesEscolaresUserPDG
 );

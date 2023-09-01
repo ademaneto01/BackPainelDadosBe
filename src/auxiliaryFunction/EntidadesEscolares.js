@@ -126,36 +126,37 @@ async function updateEscolas(req, res) {
 
   try {
     const updateDados =
-      "UPDATE EntidadesEscolares SET condicao = $1, nome_contratual = $2, tipo_rede = $3, nome_operacional = $4, cnpj_escola = $5, cep = $6, endereco = $7, cidade = $8, uf = $9, bairro = $10, complemento = $11 WHERE id = $12";
-    const { rowCount } = await connection.query(updateDados, [
-      condicao,
-      nome_contratual,
-      tipo_rede,
-      nome_operacional,
-      cnpj_escola,
-      cep,
-      endereco,
-      cidade,
-      uf,
-      bairro,
-      complemento,
-      id,
-    ]);
+      "UPDATE EntidadesEscolares SET condicao = $1, nome_contratual = $2, tipo_rede = $3, nome_operacional = $4, cnpj_escola = $5, cep = $6, endereco = $7, cidade = $8, uf = $9, bairro = $10, complemento = $11 WHERE id = $12 RETURNING *";
+    const { rowCount, rows: entidadeEdited } = await connection.query(
+      updateDados,
+      [
+        condicao,
+        nome_contratual,
+        tipo_rede,
+        nome_operacional,
+        cnpj_escola,
+        cep,
+        endereco,
+        cidade,
+        uf,
+        bairro,
+        complemento,
+        id,
+      ]
+    );
+    if (id_usuarios_pg) {
+      const queryInsertUser =
+        "INSERT INTO AuxiliarUserEscolas(id_escola, id_usuario) VALUES ($1, $2)";
 
-    const queryInsertUser =
-      "INSERT INTO AuxiliarUserEscolas(id_escola, id_usuario) VALUES ($1, $2)";
-
-    await connection.query(queryInsertUser, [id, id_usuarios_pg]);
-
+      await connection.query(queryInsertUser, [id, id_usuarios_pg]);
+    }
     if (rowCount === 0) {
       return res
         .status(400)
         .json({ mensagem: "Não foi possivel atualizar o usuário." });
     }
-
-    return res
-      .status(200)
-      .json({ mensagem: "Usuário atualizado com sucesso." });
+    const dataEntidade = entidadeEdited;
+    return res.status(200).json(dataEntidade);
   } catch (error) {
     return res.status(400).json(error.message);
   }
@@ -188,6 +189,20 @@ async function findEntidadesEscolares(req, res) {
     const EntidadesEscolaresData = rows;
 
     return res.status(200).json(EntidadesEscolaresData);
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+}
+
+async function findEntidadeEscolar(req, res) {
+  const { id } = req.body;
+  try {
+    const query = "SELECT * FROM EntidadesEscolares WHERE id = $1";
+    const { rows } = await connection.query(query, [id]);
+
+    const EntidadeEscolar = rows;
+
+    return res.status(200).json(EntidadeEscolar);
   } catch (error) {
     return res.status(400).json(error.message);
   }
@@ -252,4 +267,5 @@ module.exports = {
   findEntidadesEscolares,
   findEntidadesEscolaresUserPDG,
   deleteEntidadeEscolar,
+  findEntidadeEscolar,
 };
