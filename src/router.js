@@ -45,7 +45,7 @@ router.post(
 );
 router.post("/updateContract", auxiliaryFunctionContract.updateContract);
 router.post(
-  "/sobreescreverContrato",
+  "/sobrescreverContrato",
   auxiliaryFunctionContract.sobreescreverContrato
 );
 

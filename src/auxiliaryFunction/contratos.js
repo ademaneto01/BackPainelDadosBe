@@ -209,7 +209,8 @@ async function sobreescreverContrato(req, res) {
   try {
     //SOBREESCREVER CONTRATO
     const situacao = "SOBREESCRITO";
-    const query = "UPDATE contratos SET situacao = $1 WHERE id = $2";
+    const query =
+      "UPDATE contratos SET situacao = $1 WHERE id = $2 RETURNING *";
 
     const { rows: contratos } = await connection.query(query, [
       situacao,
@@ -220,7 +221,7 @@ async function sobreescreverContrato(req, res) {
 
     const situacaoCadastro = "ATIVO";
     const queryCadastroContrato =
-      "INSERT INTO contratos (nome_simplificado,razao_social,cnpj,cep,endereco,cidade,uf,bairro,complemento, situacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
+      "INSERT INTO contratos (nome_simplificado,razao_social,cnpj,cep,endereco,cidade,uf,bairro,complemento, situacao, QtdEscolas) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
     const {
       rows: [registredContract],
     } = await connection.query(queryCadastroContrato, [
@@ -234,6 +235,7 @@ async function sobreescreverContrato(req, res) {
       bairro,
       complemento,
       situacaoCadastro,
+      contratos[0].qtdescolas,
     ]);
 
     if (!registredContract) {
@@ -307,7 +309,7 @@ async function sobreescreverContrato(req, res) {
       ]);
     }
 
-    return res.status(200).json({ mensagem: "sobreescrito com sucesso" });
+    return res.status(200).json(contratos);
   } catch (error) {
     return res.status(400).json(error.message);
   }
