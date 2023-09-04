@@ -44,6 +44,11 @@ router.post(
   auxiliaryFunctionEscola.deleteEntidadeEscolar
 );
 router.post("/updateContract", auxiliaryFunctionContract.updateContract);
+router.post(
+  "/sobreescreverContrato",
+  auxiliaryFunctionContract.sobreescreverContrato
+);
+
 router.get("/findContracts", auxiliaryFunctionContract.findContracts);
 router.post("/findOneContract", auxiliaryFunctionContract.findOneContract);
 
