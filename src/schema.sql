@@ -84,41 +84,62 @@ CREATE TABLE AuxiliarDocEscolas (
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+-- Sugestão para cadastro de professores
+drop table if exists pedagogico.professores;
+create table pedagogico.professores (
+    id UUID default uuid_generate_v4() primary key,
+    id_ee UUID references EntidadesEscolares(id),
+    nome varchar(100),
+    ativo boolean default true,
+    especialista boolean default false,
+    email_primario varchar(100),
+    email_secundario varchar(100)
+    criado_em timestamp default current_timestamp
+ );
 
--- Cleanup
-drop table if exists relacionamento.contratos;
-drop table if exists public.entidades_escolares;
+drop table if exists vinculo_profs;
+create table vinculo_profs(
+    id UUID default uuid_generate_v4() primary key,
+    id_prof UUID references pedagogico.professores(id),
+	id_escola UUID references EntidadesEscolares(id),
+    /*Booleano para cada série escolar*/
+)
+
+drop table if exists usuarios;
+
+create table usuarios (
+    id UUID default uuid_generate_v4() primary key,
+    nome VARCHAR(100) not null,
+    email VARCHAR(100) not null unique,
+    senha VARCHAR(100) not null,
+-- que tal já criar essa vinculação aqui e permitir NULO (ou usar BE) para usuários escola?
+	id_ee UUID references entidade_escolar(id),
+    perfil VARCHAR(100) not null
+);
+
+drop table if exists usuarios_pdg;
+
+create table usuarios_pdg (
+    id UUID default uuid_generate_v4() primary key,
+    id_usuario UUID references usuarios(id),
+    id_ee UUID references entidades_escolares(id),
+);
+
+drop table if exists painel_dados;
+
+create table painel_dados (
+    id UUID default uuid_generate_v4() primary key,
+    -- vincular o painel à escola
+    id_ee UUID references entidade_escolar(id),
+    url_dados text,
+    time_stamp text,
+);
+
+
+-- Simboliza atual **contratos**
 drop table if exists public.entidades_contratuais;
-
-
--- Startup
-create extension if not exists "uuid-ossp";
-
-create schema if not exists relacionamento;
-create schema if not exists pedagogico;
-create schema if not exists comercial;
-create schema if not exists financeiro;
-create schema if not exists inovacao;
-
--- uuid on insert function
-create or replace
-function assign_uuid_on_insert()
-returns trigger as $$
-begin
-    if NEW.id is null then
-        NEW.id := uuid_generate_v4();
-end if;
-
-return new;
-end;
-
-$$ language plpgsql;
-
-
--- entidades contratuais
-
-create table if not exists public.entidades_contratuais (
-    id UUID primary key default uuid_generate_v4(),
+create table public.entidades_contratuais (
+    id UUID default uuid_generate_v4() primary key,
     id_ec int,
     nome_simplificado varchar(100),
     razao_social varchar(100),
@@ -129,25 +150,17 @@ create table if not exists public.entidades_contratuais (
     uf varchar(2),
     bairro varchar(100),
     complemento varchar(200) default null,
-    ative boolean default true,
+    ativo boolean default true,
     bo_rede boolean default false,
-    created_at timestamp default current_timestamp
+    QtdEscolas int,
+    criado_em timestamp default current_timestamp
 );
 
-create trigger trigger_assign_uuid
-before
-insert
-	on
-	public.entidades_contratuais
-for each row
-execute function assign_uuid_on_insert();
-
--- fim de entidades contratuais
-
--- entidades escolares
-
-create table if not exists public.entidades_escolares (
-    id UUID primary key default uuid_generate_v4(),
+-- EntidadesEscolares
+drop table if exists public.entidades_escolares;
+create table public.entidades_escolares (
+    id UUID default uuid_generate_v4() primary key,
+    uuid_ec UUID references public.entidades_contratuais(id)
     id_ec int,
     nome_operacional varchar(100),
     cnpj_escola varchar(18),
@@ -157,26 +170,14 @@ create table if not exists public.entidades_escolares (
     uf varchar(2),
     bairro varchar(100),
     complemento varchar(200),
-    ative boolean default true,
-    entidades_contratuais UUID references public.entidades_contratuais(id)
-);
+    ativo boolean default true,
+)
 
-create trigger trigger_assign_uuid
-before
-insert
-	on
-	public.entidades_escolares 
-for each row
-execute function assign_uuid_on_insert();
-
-
--- fim de unidades escolares
-
--- contratos
-
-create table if not exists relacionamento.contratos (
-	id UUID primary key default uuid_generate_v4(),
-	entidades_contratuais UUID references public.entidades_contratuais(id),
+-- Não existe atualmente, armazena informação global do contrato com a ent. contratual e se ele está ativo
+drop table if exists relacionamento.infos_contrato;
+create table relacionamento.infos_contrato (
+	id UUID default uuid_generate_v4() primary key,
+	uuid_ec UUID references public.entidades_contratuais(id),
 	ano_assinatura int,
 	ano_operacao int,
 	ano_termino int,
@@ -186,28 +187,21 @@ create table if not exists relacionamento.contratos (
 	reajuste_igpm_ipca boolean
 );
 
-create trigger trigger_assign_uuid
-before
-insert
-	on
-	relacionamento.contratos 
-for each row
-execute function assign_uuid_on_insert();
 
--- fim de contratos
+-- AuxiliarDocContratos : Armazena documentos referentes ao contrato com a escola (apenas usuário ADM)
+drop table if exists relacionamento.docs_contrato;
+create table relacionamento.docs_contrato (
+    id UUID default uuid_generate_v4() primary key,
+	id_contrato UUID references infos_contratos(id),
+    doc text
+)
 
-
--- ec/ee mapper
-
-update
-	public.entidades_escolares ee
-set
-	entidades_contratuais = ec.id
-from
-	public.entidades_contratuais ec
-where
-	ee.id_ec = ec.id_ec;
-
-
+-- sem mudanças
+DROP TABLE if exists AuxiliarDocEscolas;
+CREATE TABLE AuxiliarDocEscolas (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id_escola UUID REFERENCES EntidadesEscolares(id),
+    doc TEXT
+ );
 
 

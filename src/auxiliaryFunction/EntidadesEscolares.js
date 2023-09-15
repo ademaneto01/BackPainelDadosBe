@@ -1,9 +1,7 @@
 const connection = require("../connection");
 
-async function registerEntidadeEscolar(req, res) {
+async function registrarEntidadeEscolar(req, res) {
   const {
-    nome_contratual,
-    tipo_rede,
     nome_operacional,
     cnpj_escola,
     cep,
@@ -12,13 +10,13 @@ async function registerEntidadeEscolar(req, res) {
     uf,
     bairro,
     complemento,
-    id_contrato,
-    id_usuarios_pg,
+    ativo,
+    uuid_ec,
+    url_dados,
+    id_usuario_pdg,
   } = req.body;
 
   if (
-    !nome_contratual ||
-    !tipo_rede ||
     !nome_operacional ||
     !cnpj_escola ||
     !cep ||
@@ -27,7 +25,9 @@ async function registerEntidadeEscolar(req, res) {
     !uf ||
     !bairro ||
     !complemento ||
-    !id_contrato
+    !id_usuario_pdg ||
+    !url_dados ||
+    !ativo
   ) {
     return res
       .status(400)
@@ -35,14 +35,11 @@ async function registerEntidadeEscolar(req, res) {
   }
 
   try {
-    const situacao = "ATIVO";
     const query =
-      "INSERT INTO EntidadesEscolares (nome_contratual, tipo_rede, nome_operacional, cnpj_escola, cep, endereco, cidade, uf, bairro, complemento, id_contrato, situacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *";
+      "INSERT INTO entidades_escolares ( nome_operacional, cnpj_escola, cep, endereco, cidade, uf, bairro, complemento, ativo, uuid_ec ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
     const {
       rows: [registredEntidadesEscolares],
     } = await connection.query(query, [
-      nome_contratual,
-      tipo_rede,
       nome_operacional,
       cnpj_escola,
       cep,
@@ -51,8 +48,16 @@ async function registerEntidadeEscolar(req, res) {
       uf,
       bairro,
       complemento,
-      id_contrato,
-      situacao,
+      ativo,
+      uuid_ec,
+    ]);
+
+    const queryInsertUrlDados =
+      "INSERT INTO painel_dados(id_ee, url_dados) VALUES ($1, $2)";
+
+    await connection.query(queryInsertUrlDados, [
+      registredEntidadesEscolares.id,
+      url_dados,
     ]);
 
     if (!registredEntidadesEscolares) {
@@ -60,40 +65,34 @@ async function registerEntidadeEscolar(req, res) {
         .status(400)
         .json({ mensagem: "Não foi possivel cadastrar a entidade escolar." });
     }
-    const sitaucao = "ATIVO";
+    const active = true;
     const queryCount =
-      "SELECT COUNT(*) FROM EntidadesEscolares WHERE id_contrato = $1 AND situacao = $2";
-    const { rows } = await connection.query(queryCount, [
-      id_contrato,
-      sitaucao,
-    ]);
+      "SELECT COUNT(*) FROM entidades_escolares WHERE uuid_ec = $1 AND ativo = $2";
+    const { rows } = await connection.query(queryCount, [uuid_ec, active]);
     const count = rows[0].count;
-    const updateDados = "UPDATE contratos SET QtdEscolas = $1 WHERE id = $2";
-    await connection.query(updateDados, [count, id_contrato]);
+    const updateDados =
+      "UPDATE entidades_contratuais SET qtdEscolas = $1 WHERE id = $2";
+    await connection.query(updateDados, [count, uuid_ec]);
 
     const entidadeEscolarId = registredEntidadesEscolares.id;
 
-    if (id_usuarios_pg) {
-      const queryInsertUser =
-        "INSERT INTO AuxiliarUserEscolas(id_escola, id_usuario) VALUES ($1, $2)";
+    const queryInsertUser =
+      "INSERT INTO usuarios_pdg(id_ee, id_usuario) VALUES ($1, $2)";
 
-      await connection.query(queryInsertUser, [
-        entidadeEscolarId,
-        id_usuarios_pg,
-      ]);
-    }
+    await connection.query(queryInsertUser, [
+      entidadeEscolarId,
+      id_usuario_pdg,
+    ]);
+
     return res.status(201).json(registredEntidadesEscolares);
   } catch (error) {
     return res.status(400).json(error.message);
   }
 }
 
-async function updateEscolas(req, res) {
+async function editarEntidadeEscolar(req, res) {
   const {
     id,
-    condicao,
-    nome_contratual,
-    tipo_rede,
     nome_operacional,
     cnpj_escola,
     cep,
@@ -102,14 +101,13 @@ async function updateEscolas(req, res) {
     uf,
     bairro,
     complemento,
-    id_usuarios_pg,
+    ativo,
+    url_dados,
+    id_usuario_pdg,
   } = req.body;
 
   if (
     !id ||
-    !condicao ||
-    !nome_contratual ||
-    !tipo_rede ||
     !nome_operacional ||
     !cnpj_escola ||
     !cep ||
@@ -117,7 +115,9 @@ async function updateEscolas(req, res) {
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento
+    !complemento ||
+    !url_dados ||
+    !ativo
   ) {
     return res
       .status(400)
@@ -126,13 +126,10 @@ async function updateEscolas(req, res) {
 
   try {
     const updateDados =
-      "UPDATE EntidadesEscolares SET condicao = $1, nome_contratual = $2, tipo_rede = $3, nome_operacional = $4, cnpj_escola = $5, cep = $6, endereco = $7, cidade = $8, uf = $9, bairro = $10, complemento = $11 WHERE id = $12 RETURNING *";
+      "UPDATE entidades_escolares SET nome_operacional = $1, cnpj_escola = $2, cep = $3, endereco = $4, cidade = $5, uf = $6, bairro = $7, complemento = $8, ativo = $9 WHERE id = $10 RETURNING *";
     const { rowCount, rows: entidadeEdited } = await connection.query(
       updateDados,
       [
-        condicao,
-        nome_contratual,
-        tipo_rede,
         nome_operacional,
         cnpj_escola,
         cep,
@@ -141,19 +138,28 @@ async function updateEscolas(req, res) {
         uf,
         bairro,
         complemento,
+        ativo,
         id,
       ]
     );
-    if (id_usuarios_pg) {
-      const queryInsertUser =
-        "INSERT INTO AuxiliarUserEscolas(id_escola, id_usuario) VALUES ($1, $2)";
 
-      await connection.query(queryInsertUser, [id, id_usuarios_pg]);
-    }
+    const updatePainelDados =
+      "UPDATE painel_dados SET url_dados = $1 WHERE id_ee = $2";
+
+    await connection.query(updatePainelDados, [url_dados, id]);
+
+    const deletarUsuarioPDG = "DELETE FROM usuarios_pdg WHERE id_ee = $1";
+    await connection.query(deletarUsuarioPDG, [id]);
+
+    const queryInsertUser =
+      "INSERT INTO usuarios_pdg(id_ee, id_usuario) VALUES ($1, $2)";
+
+    await connection.query(queryInsertUser, [id, id_usuario_pdg]);
+
     if (rowCount === 0) {
       return res
         .status(400)
-        .json({ mensagem: "Não foi possivel atualizar o usuário." });
+        .json({ mensagem: "Não foi possivel atualizar a entidade escolar." });
     }
     const dataEntidade = entidadeEdited;
     return res.status(200).json(dataEntidade);
@@ -162,13 +168,13 @@ async function updateEscolas(req, res) {
   }
 }
 
-async function deleteUserEscola(req, res) {
-  const { userId, idEscola } = req.body;
+async function deletarUsuarioEscola(req, res) {
+  const { id_ee, id_usuario } = req.body;
 
   try {
     const deleteUserEscola =
-      "DELETE FROM AuxiliarUserEscolas WHERE id_escola = $1 AND id_usuario = $2";
-    await connection.query(deleteUserEscola, [idEscola, userId]);
+      "DELETE FROM usuarios_pdg WHERE id_ee = $1 AND id_usuario = $2";
+    await connection.query(deleteUserEscola, [id_ee, id_usuario]);
 
     return res
       .status(200)
@@ -178,13 +184,13 @@ async function deleteUserEscola(req, res) {
   }
 }
 
-async function findEntidadesEscolares(req, res) {
-  const { id_contrato } = req.body;
+async function localizarEntidadesEscolares(req, res) {
+  const { uuid_ec } = req.body;
   try {
-    const situacao = "ATIVO";
+    const ativo = true;
     const query =
-      "SELECT * FROM EntidadesEscolares WHERE id_contrato = $1 AND situacao = $2";
-    const { rows } = await connection.query(query, [id_contrato, situacao]);
+      "SELECT * FROM entidades_escolares WHERE uuid_ec = $1 AND ativo = $2";
+    const { rows } = await connection.query(query, [uuid_ec, ativo]);
 
     const EntidadesEscolaresData = rows;
 
@@ -194,10 +200,24 @@ async function findEntidadesEscolares(req, res) {
   }
 }
 
-async function findEntidadeEscolar(req, res) {
+async function todasEntidadesEscolares(req, res) {
+  try {
+    const ativo = true;
+    const query = "SELECT * FROM entidades_escolares WHERE ativo = $1";
+    const { rows } = await connection.query(query, [ativo]);
+
+    const EntidadesEscolaresData = rows;
+
+    return res.status(200).json(EntidadesEscolaresData);
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+}
+
+async function localizarEntidadeEscolar(req, res) {
   const { id } = req.body;
   try {
-    const query = "SELECT * FROM EntidadesEscolares WHERE id = $1";
+    const query = "SELECT * FROM entidades_escolares WHERE id = $1";
     const { rows } = await connection.query(query, [id]);
 
     const EntidadeEscolar = rows;
@@ -208,14 +228,14 @@ async function findEntidadeEscolar(req, res) {
   }
 }
 
-async function findEntidadesEscolaresUserPDG(req, res) {
+async function localizarEntidadesEscolaresUsuariosPDG(req, res) {
   const { userId } = req.body;
   try {
     const query = `
-      SELECT EntidadesEscolares.* 
-      FROM EntidadesEscolares
-      JOIN AuxiliarUserEscolas ON EntidadesEscolares.id = AuxiliarUserEscolas.id_escola
-      WHERE AuxiliarUserEscolas.id_usuario = $1 
+      SELECT entidades_escolares.* 
+      FROM entidades_escolares
+      JOIN usuarios_pdg ON entidades_escolares.id = usuarios_pdg.id_ee
+      WHERE usuarios_pdg.id_usuario = $1 
     `;
 
     const { rows } = await connection.query(query, [userId]);
@@ -225,33 +245,36 @@ async function findEntidadesEscolaresUserPDG(req, res) {
   }
 }
 
-async function deleteEntidadeEscolar(req, res) {
-  const { id_escola } = req.body;
+async function deletarEntidadeEscolar(req, res) {
+  const { id } = req.body;
 
   try {
-    const situacao = "INATIVO";
+    const ativo = false;
     const deleteQueryEntidadesEscolares =
-      "UPDATE entidadesescolares SET situacao = $1 WHERE id = $2 RETURNING *";
+      "UPDATE entidades_escolares SET ativo = $1 WHERE id = $2 RETURNING *";
     const { rows } = await connection.query(deleteQueryEntidadesEscolares, [
-      situacao,
-      id_escola,
+      ativo,
+      id,
     ]);
 
-    const deleteQueryPainelDados =
-      "DELETE FROM AuxiliarUserEscolas WHERE id_escola = $1";
-    await connection.query(deleteQueryPainelDados, [id_escola]);
+    const deleteUsuariosPdg = "DELETE FROM usuarios_pdg WHERE id_ee = $1";
+    await connection.query(deleteUsuariosPdg, [id]);
 
-    const sitaucao = "ATIVO";
+    const deletePainelDados = "DELETE FROM painel_dados WHERE id_ee = $1";
+    await connection.query(deletePainelDados, [id]);
+
+    const sitaucao = true;
     const queryCount =
-      "SELECT COUNT(*) FROM EntidadesEscolares WHERE id_contrato = $1 AND situacao = $2";
+      "SELECT COUNT(*) FROM entidades_escolares WHERE uuid_ec = $1 AND ativo = $2";
     const { rows: contadora } = await connection.query(queryCount, [
-      rows[0].id_contrato,
+      rows[0].uuid_ec,
       sitaucao,
     ]);
 
     const count = contadora[0].count;
-    const updateDados = "UPDATE contratos SET QtdEscolas = $1 WHERE id = $2";
-    await connection.query(updateDados, [count, rows[0].id_contrato]);
+    const updateDados =
+      "UPDATE entidades_contratuais SET qtdEscolas = $1 WHERE id = $2";
+    await connection.query(updateDados, [count, rows[0].uuid_ec]);
 
     const updateEntidadeEscolar = rows;
     return res.status(200).json(updateEntidadeEscolar);
@@ -261,11 +284,12 @@ async function deleteEntidadeEscolar(req, res) {
 }
 
 module.exports = {
-  registerEntidadeEscolar,
-  updateEscolas,
-  deleteUserEscola,
-  findEntidadesEscolares,
-  findEntidadesEscolaresUserPDG,
-  deleteEntidadeEscolar,
-  findEntidadeEscolar,
+  registrarEntidadeEscolar,
+  editarEntidadeEscolar,
+  deletarUsuarioEscola,
+  localizarEntidadesEscolares,
+  localizarEntidadesEscolaresUsuariosPDG,
+  deletarEntidadeEscolar,
+  localizarEntidadeEscolar,
+  todasEntidadesEscolares,
 };

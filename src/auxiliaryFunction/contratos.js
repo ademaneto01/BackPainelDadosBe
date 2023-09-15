@@ -1,28 +1,32 @@
 const connection = require("../connection");
 
-async function registerContract(req, res) {
+async function registrarEntidadeContratual(req, res) {
   const {
     nome_simplificado,
     razao_social,
-    cnpj,
+    cnpj_cont,
     cep,
     endereco,
     cidade,
     uf,
     bairro,
     complemento,
+    bo_rede,
+    ativo,
   } = req.body;
 
   if (
     !nome_simplificado ||
     !razao_social ||
-    !cnpj ||
+    !cnpj_cont ||
     !cep ||
     !endereco ||
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento
+    !complemento ||
+    !bo_rede ||
+    !ativo
   ) {
     return res
       .status(400)
@@ -30,22 +34,22 @@ async function registerContract(req, res) {
   }
 
   try {
-    const situacao = "ATIVO";
     const query =
-      "INSERT INTO contratos (nome_simplificado,razao_social,cnpj,cep,endereco,cidade,uf,bairro,complemento, situacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
+      "INSERT INTO entidades_contratuais (nome_simplificado,razao_social,cnpj_cont,cep,endereco,cidade,uf,bairro,complemento, ativo, bo_rede) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
     const {
       rows: [registredContract],
     } = await connection.query(query, [
       nome_simplificado,
       razao_social,
-      cnpj,
+      cnpj_cont,
       cep,
       endereco,
       cidade,
       uf,
       bairro,
       complemento,
-      situacao,
+      ativo,
+      bo_rede,
     ]);
 
     if (!registredContract) {
@@ -60,30 +64,34 @@ async function registerContract(req, res) {
   }
 }
 
-async function updateContract(req, res) {
+async function editarEntidadeContratual(req, res) {
   const {
     id,
     nome_simplificado,
     razao_social,
-    cnpj,
+    cnpj_cont,
     cep,
     endereco,
     cidade,
     uf,
     bairro,
     complemento,
+    ativo,
+    bo_rede,
   } = req.body;
 
   if (
     !nome_simplificado ||
     !razao_social ||
-    !cnpj ||
+    !cnpj_cont ||
     !cep ||
     !endereco ||
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento
+    !complemento ||
+    !ativo ||
+    !bo_rede
   ) {
     return res
       .status(400)
@@ -92,17 +100,19 @@ async function updateContract(req, res) {
 
   try {
     const updateDados =
-      "UPDATE contratos SET nome_simplificado = $1, razao_social = $2, cnpj = $3, cep = $4, endereco = $5, cidade = $6, uf = $7, bairro = $8, complemento = $9 WHERE id = $10";
+      "UPDATE entidades_contratuais SET nome_simplificado = $1, razao_social = $2, cnpj_cont = $3, cep = $4, endereco = $5, cidade = $6, uf = $7, bairro = $8, complemento = $9, ativo = $10, bo_rede = $11 WHERE id = $12";
     const { rows, rowCount } = await connection.query(updateDados, [
       nome_simplificado,
       razao_social,
-      cnpj,
+      cnpj_cont,
       cep,
       endereco,
       cidade,
       uf,
       bairro,
       complemento,
+      ativo,
+      bo_rede,
       id,
     ]);
 
@@ -118,11 +128,11 @@ async function updateContract(req, res) {
   }
 }
 
-async function findContracts(req, res) {
+async function localizarContratos(req, res) {
   try {
-    const situacao = "ATIVO";
-    const query = "SELECT * FROM contratos WHERE situacao = $1";
-    const { rows } = await connection.query(query, [situacao]);
+    const ativo = true;
+    const query = "SELECT * FROM entidades_contratuais WHERE ativo = $1";
+    const { rows } = await connection.query(query, [ativo]);
 
     const userData = rows;
 
@@ -132,10 +142,10 @@ async function findContracts(req, res) {
   }
 }
 
-async function findOneContract(req, res) {
+async function localizarContrato(req, res) {
   const { id } = req.body;
   try {
-    const query = "SELECT * FROM contratos WHERE id = $1";
+    const query = "SELECT * FROM entidade_contratuais WHERE id = $1";
     const { rows } = await connection.query(query, [id]);
 
     const userData = rows;
@@ -146,28 +156,25 @@ async function findOneContract(req, res) {
   }
 }
 
-async function deleteContrato(req, res) {
-  const { id_contrato } = req.body;
+async function deletarContrato(req, res) {
+  const { uuid_ec } = req.body;
 
   try {
-    const situacao = "INATIVO";
-    const query = "SELECT * FROM EntidadesEscolares WHERE id_contrato = $1";
-    const { rowCount } = await connection.query(query, [id_contrato]);
+    const ativo = false;
+    const query = "SELECT * FROM entidades_escolares WHERE uuid_ec = $1";
+    const { rowCount } = await connection.query(query, [uuid_ec]);
 
     if (rowCount > 0) {
       const deleteQueryEntidadesEscolares =
-        "UPDATE EntidadesEscolares SET situacao = $1 WHERE id_contrato = $2";
-      await connection.query(deleteQueryEntidadesEscolares, [
-        situacao,
-        id_contrato,
-      ]);
+        "UPDATE entidades_escolares SET ativo = $1 WHERE uuid_ec = $2";
+      await connection.query(deleteQueryEntidadesEscolares, [ativo, uuid_ec]);
     }
 
     const queryUpdateContrato =
-      "UPDATE contratos SET situacao = $1 WHERE id = $2 RETURNING *";
+      "UPDATE entidades_contratuais SET ativo = $1 WHERE id = $2 RETURNING *";
     const { rows } = await connection.query(queryUpdateContrato, [
-      situacao,
-      id_contrato,
+      ativo,
+      uuid_ec,
     ]);
     const contratos = rows;
     return res.status(200).json(contratos);
@@ -178,7 +185,7 @@ async function deleteContrato(req, res) {
 
 async function sobreescreverContrato(req, res) {
   const {
-    id_contrato,
+    uuid_ec,
     nome_simplificado,
     razao_social,
     cnpj,
@@ -208,20 +215,17 @@ async function sobreescreverContrato(req, res) {
 
   try {
     //SOBREESCREVER CONTRATO
-    const situacao = "SOBREESCRITO";
+    const ativo = false;
     const query =
-      "UPDATE contratos SET situacao = $1 WHERE id = $2 RETURNING *";
+      "UPDATE entidades_contratuais SET ativo = $1 WHERE id = $2 RETURNING *";
 
-    const { rows: contratos } = await connection.query(query, [
-      situacao,
-      id_contrato,
-    ]);
+    const { rows: contratos } = await connection.query(query, [ativo, uuid_ec]);
 
     //INSERIR DADOS NOVO CONTRATO
 
-    const situacaoCadastro = "ATIVO";
+    const situacaoCadastro = true;
     const queryCadastroContrato =
-      "INSERT INTO contratos (nome_simplificado,razao_social,cnpj,cep,endereco,cidade,uf,bairro,complemento, situacao, QtdEscolas) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
+      "INSERT INTO entidades_contratuais (nome_simplificado,razao_social,cnpj,cep,endereco,cidade,uf,bairro,complemento, ativo, QtdEscolas) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
     const {
       rows: [registredContract],
     } = await connection.query(queryCadastroContrato, [
@@ -246,19 +250,19 @@ async function sobreescreverContrato(req, res) {
 
     //ENCONTRAR ENTIDADES ESCOLARES RELACIONADAS AO CONTRATO
 
-    const situacaoEntidadesEscolares = "ATIVO";
+    const situacaoEntidadesEscolares = true;
     const queryLocalicarEntidadesEscolares =
-      "SELECT * FROM EntidadesEscolares WHERE id_contrato = $1 AND situacao = $2";
+      "SELECT * FROM entidades_escolares WHERE uuid_ec = $1 AND ativo = $2";
     const { rows: LocalizarEntidadesEscolares } = await connection.query(
       queryLocalicarEntidadesEscolares,
-      [id_contrato, situacaoEntidadesEscolares]
+      [uuid_ec, situacaoEntidadesEscolares]
     );
 
-    //DUPLICAR ENTIDADES
+    //DUPLICAR ENTIDADES ESCOLARES
 
-    const situacaoRegistrarEntidade = "ATIVO";
+    const situacaoRegistrarEntidade = true;
     const queryDuplicarEntidades =
-      "INSERT INTO EntidadesEscolares (nome_contratual, tipo_rede, nome_operacional, cnpj_escola, cep, endereco, cidade, uf, bairro, complemento, id_contrato, situacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *";
+      "INSERT INTO entidades_escolares (nome_contratual, tipo_rede, nome_operacional, cnpj_escola, cep, endereco, cidade, uf, bairro, complemento, uuid_ec, ativo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *";
 
     for (let entidadeNew of LocalizarEntidadesEscolares) {
       const { rows: inserindoNovaEntidade } = await connection.query(
@@ -279,28 +283,28 @@ async function sobreescreverContrato(req, res) {
         ]
       );
 
-      const localizarUsersTabAuxiliar =
-        "SELECT * FROM AuxiliarUserEscolas WHERE id_escola = $1";
-      const { rowCount, rows: localizarUser } = await connection.query(
-        localizarUsersTabAuxiliar,
-        [entidadeNew.id]
-      );
+      // const localizarUsersTabAuxiliar =
+      //   "SELECT * FROM AuxiliarUserEscolas WHERE id_escola = $1";
+      // const { rowCount, rows: localizarUser } = await connection.query(
+      //   localizarUsersTabAuxiliar,
+      //   [entidadeNew.id]
+      // );
 
-      if (rowCount > 0) {
-        const alterandoIdEscolaUsuarioPedagogico =
-          "INSERT INTO AuxiliarUserEscolas (id_usuario, id_escola) VALUES ($1, $2) RETURNING *";
-        await connection.query(alterandoIdEscolaUsuarioPedagogico, [
-          localizarUser[0].id_usuario,
-          inserindoNovaEntidade[0].id,
-        ]);
-      }
+      // if (rowCount > 0) {
+      //   const alterandoIdEscolaUsuarioPedagogico =
+      //     "INSERT INTO AuxiliarUserEscolas (id_usuario, id_escola) VALUES ($1, $2) RETURNING *";
+      //   await connection.query(alterandoIdEscolaUsuarioPedagogico, [
+      //     localizarUser[0].id_usuario,
+      //     inserindoNovaEntidade[0].id,
+      //   ]);
+      // }
     }
 
     //SOBREESCREVER ENTIDADES ESCOLARES
 
-    const situacaoSobreescreverEntidadesEscolares = "SOBREESCRITO";
+    const situacaoSobreescreverEntidadesEscolares = false;
     const querySobreescreverEntidade =
-      "UPDATE EntidadesEscolares SET situacao = $1 WHERE id = $2";
+      "UPDATE entidades_escolares SET ativo = $1 WHERE id = $2";
 
     for (let entidade of LocalizarEntidadesEscolares) {
       await connection.query(querySobreescreverEntidade, [
@@ -316,10 +320,10 @@ async function sobreescreverContrato(req, res) {
 }
 
 module.exports = {
-  registerContract,
-  updateContract,
-  findContracts,
-  deleteContrato,
-  findOneContract,
+  registrarEntidadeContratual,
+  editarEntidadeContratual,
+  localizarContratos,
+  deletarContrato,
+  localizarContrato,
   sobreescreverContrato,
 };
