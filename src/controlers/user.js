@@ -21,7 +21,18 @@ async function registrarUsuario(req, res) {
         mensagem: "Já existe usuário cadastrado com o e-mail informado.",
       });
     }
-
+    const localizarUsuarioPDGCadastrado =
+      "SELECT * FROM usuarios_pdg WHERE id_ee = $1";
+    const { rowCount: usuarioPDGExistente } = await connection.query(
+      localizarUsuarioPDGCadastrado,
+      [id_ee]
+    );
+    if (usuarioPDGExistente > 0) {
+      return res.status(400).json({
+        mensagem:
+          "Já existe usuário pedagogico cadastrado para escola informada.",
+      });
+    }
     const hash = await bcrypt.hash(senha, 10);
     const query =
       "INSERT INTO usuarios (nome, email, senha, perfil, id_ee) VALUES ($1, $2, $3, $4, $5) RETURNING *";
@@ -33,6 +44,12 @@ async function registrarUsuario(req, res) {
       return res
         .status(400)
         .json({ mensagem: "Não foi possivel cadastrar o usuário." });
+    }
+
+    if (perfil === "Pedagógico") {
+      const queryPdg =
+        "INSERT INTO usuarios_pdg (id_usuario, id_ee) VALUES ($1, $2) ";
+      await connection.query(queryPdg, [registredUser.id, id_ee]);
     }
 
     delete registredUser.senha;

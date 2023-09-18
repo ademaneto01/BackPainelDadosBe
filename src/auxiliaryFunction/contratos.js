@@ -24,9 +24,7 @@ async function registrarEntidadeContratual(req, res) {
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento ||
-    !bo_rede ||
-    !ativo
+    !complemento
   ) {
     return res
       .status(400)
@@ -34,8 +32,10 @@ async function registrarEntidadeContratual(req, res) {
   }
 
   try {
+    const deleted = false;
+    const qtdEscolas = 0;
     const query =
-      "INSERT INTO entidades_contratuais (nome_simplificado,razao_social,cnpj_cont,cep,endereco,cidade,uf,bairro,complemento, ativo, bo_rede) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
+      "INSERT INTO entidades_contratuais (nome_simplificado,razao_social,cnpj_cont,cep,endereco,cidade,uf,bairro,complemento, ativo, bo_rede, deleted, qtdescolas) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *";
     const {
       rows: [registredContract],
     } = await connection.query(query, [
@@ -50,6 +50,8 @@ async function registrarEntidadeContratual(req, res) {
       complemento,
       ativo,
       bo_rede,
+      deleted,
+      qtdEscolas,
     ]);
 
     if (!registredContract) {
@@ -89,9 +91,7 @@ async function editarEntidadeContratual(req, res) {
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento ||
-    !ativo ||
-    !bo_rede
+    !complemento
   ) {
     return res
       .status(400)
@@ -100,7 +100,7 @@ async function editarEntidadeContratual(req, res) {
 
   try {
     const updateDados =
-      "UPDATE entidades_contratuais SET nome_simplificado = $1, razao_social = $2, cnpj_cont = $3, cep = $4, endereco = $5, cidade = $6, uf = $7, bairro = $8, complemento = $9, ativo = $10, bo_rede = $11 WHERE id = $12";
+      "UPDATE entidades_contratuais SET nome_simplificado = $1, razao_social = $2, cnpj_cont = $3, cep = $4, endereco = $5, cidade = $6, uf = $7, bairro = $8, complemento = $9, ativo = $10, bo_rede = $11 WHERE id = $12 RETURNING *";
     const { rows, rowCount } = await connection.query(updateDados, [
       nome_simplificado,
       razao_social,
@@ -130,9 +130,9 @@ async function editarEntidadeContratual(req, res) {
 
 async function localizarContratos(req, res) {
   try {
-    const ativo = true;
-    const query = "SELECT * FROM entidades_contratuais WHERE ativo = $1";
-    const { rows } = await connection.query(query, [ativo]);
+    const deleted = false;
+    const query = "SELECT * FROM entidades_contratuais WHERE deleted = $1";
+    const { rows } = await connection.query(query, [deleted]);
 
     const userData = rows;
 
@@ -145,7 +145,7 @@ async function localizarContratos(req, res) {
 async function localizarContrato(req, res) {
   const { id } = req.body;
   try {
-    const query = "SELECT * FROM entidade_contratuais WHERE id = $1";
+    const query = "SELECT * FROM entidades_contratuais WHERE id = $1";
     const { rows } = await connection.query(query, [id]);
 
     const userData = rows;
@@ -160,19 +160,34 @@ async function deletarContrato(req, res) {
   const { uuid_ec } = req.body;
 
   try {
+    const deleted = true;
     const ativo = false;
     const query = "SELECT * FROM entidades_escolares WHERE uuid_ec = $1";
-    const { rowCount } = await connection.query(query, [uuid_ec]);
+    const { rows: entidadeEscolar, rowCount } = await connection.query(query, [
+      uuid_ec,
+    ]);
 
     if (rowCount > 0) {
       const deleteQueryEntidadesEscolares =
-        "UPDATE entidades_escolares SET ativo = $1 WHERE uuid_ec = $2";
-      await connection.query(deleteQueryEntidadesEscolares, [ativo, uuid_ec]);
+        "UPDATE entidades_escolares SET deleted = $1, ativo = $2 WHERE uuid_ec = $3";
+      await connection.query(deleteQueryEntidadesEscolares, [
+        deleted,
+        ativo,
+        uuid_ec,
+      ]);
     }
+    //EXCLUIR RELAÇÃO DO USUARIO_PDG COM A ESCOLA RELACIONADA AO CONTRATO EXCLUIDA
+    const queryDeleteUsuarioPdg = "DELETE FROM usuarios_pdg WHERE id_ee = $1";
+    await connection.query(queryDeleteUsuarioPdg, [entidadeEscolar[0].id]);
+
+    //EXCLUIR RELAÇÃO DE PAINELDADOS COM A ESCOLA RELACIONADA AO CONTRATO EXCLUIDA
+    const queryDeletePainelDados = "DELETE FROM painel_dados WHERE id_ee = $1";
+    await connection.query(queryDeletePainelDados, [entidadeEscolar[0].id]);
 
     const queryUpdateContrato =
-      "UPDATE entidades_contratuais SET ativo = $1 WHERE id = $2 RETURNING *";
+      "UPDATE entidades_contratuais SET deleted = $1, ativo = $2 WHERE id = $3 RETURNING *";
     const { rows } = await connection.query(queryUpdateContrato, [
+      deleted,
       ativo,
       uuid_ec,
     ]);

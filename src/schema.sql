@@ -170,6 +170,7 @@ create table public.entidades_escolares (
     uf varchar(2),
     bairro varchar(100),
     complemento varchar(200),
+    id_usuario_pdg references public.usuarios(id)
     ativo boolean default true,
 )
 
