@@ -76,13 +76,15 @@ async function registrarEntidadeEscolar(req, res) {
 
     const entidadeEscolarId = registredEntidadesEscolares.id;
 
-    const queryInsertUser =
-      "INSERT INTO usuarios_pdg(id_ee, id_usuario) VALUES ($1, $2)";
+    if (id_usuario_pdg) {
+      const queryInsertUser =
+        "INSERT INTO usuarios_pdg(id_ee, id_usuario) VALUES ($1, $2)";
 
-    await connection.query(queryInsertUser, [
-      entidadeEscolarId,
-      id_usuario_pdg,
-    ]);
+      await connection.query(queryInsertUser, [
+        entidadeEscolarId,
+        id_usuario_pdg,
+      ]);
+    }
 
     return res.status(201).json(registredEntidadesEscolares);
   } catch (error) {
@@ -149,11 +151,12 @@ async function editarEntidadeEscolar(req, res) {
 
     const deletarUsuarioPDG = "DELETE FROM usuarios_pdg WHERE id_ee = $1";
     await connection.query(deletarUsuarioPDG, [id]);
+    if (id_usuario_pdg) {
+      const queryInsertUser =
+        "INSERT INTO usuarios_pdg(id_ee, id_usuario) VALUES ($1, $2)";
 
-    const queryInsertUser =
-      "INSERT INTO usuarios_pdg(id_ee, id_usuario) VALUES ($1, $2)";
-
-    await connection.query(queryInsertUser, [id, id_usuario_pdg]);
+      await connection.query(queryInsertUser, [id, id_usuario_pdg]);
+    }
 
     if (rowCount === 0) {
       return res
