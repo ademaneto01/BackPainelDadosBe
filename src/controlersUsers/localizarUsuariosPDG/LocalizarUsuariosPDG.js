@@ -3,7 +3,7 @@ const connection = require("../../connection");
 async function LocalizarUsuariosPDG(req, res) {
   try {
     const users = await getUsersWithPedagogicoProfile();
-    return res.status(200).json([users]);
+    return res.status(200).json(users);
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }

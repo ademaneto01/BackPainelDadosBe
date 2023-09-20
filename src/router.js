@@ -2,10 +2,11 @@ const { Router } = require("express");
 
 // const auxiliaryFunction = require("./auxiliaryFunction/findDadosUser");
 // const auxiliaryFunctionContract = require("./auxiliaryFunction/contratos");
-const auxiliaryFunctionEscola = require("./auxiliaryFunction/EntidadesEscolares");
+// const auxiliaryFunctionEscola = require("./auxiliaryFunction/EntidadesEscolares");
 // const auxiliaryFunctionProfessores = require("./auxiliaryFunction/professores");
 const usuario = require("./controlersUsers/index");
 const contratos = require("./contratos/index");
+const entidadesEscolares = require("./entidadesEscolares/index");
 // const validateToken = require("./middlewear/token");
 
 const router = Router();
@@ -31,6 +32,7 @@ router.get(
   usuario.LocalizarUsuariosPDGMiddleware.LocalizarUsuariosPDG
 );
 router.post("/deletarUsuario", usuario.DeletarUsuarioMiddleware.DeletarUsuario);
+
 //////////////////////// contratos ////////////////////////////////////////
 
 router.post(
@@ -63,6 +65,45 @@ router.post(
   contratos.SobreEscreverContratoMiddleware.SobreEscreverContrato
 );
 
+/////////////////////ENTIDADES ESCOLARES ///////////////////
+
+router.post(
+  "/registrarEntidadeEscolar",
+  entidadesEscolares.RegistrarEntidadeEscolarMiddleware.RegistrarEntidadeEscolar
+);
+
+router.post(
+  "/editarEntidadeEscolar",
+  entidadesEscolares.EditarEntidadeEscolarMiddleware.EditarEntidadeEscolar
+);
+
+router.post(
+  "/localizarEntidadesEscolares",
+  entidadesEscolares.LocalizarEntidadesEscolaresMiddleware
+    .LocalizarEntidadesEscolares
+);
+
+router.post(
+  "/localizarEntidadeEscolar",
+  entidadesEscolares.LocalizarEntidadeEscolarMiddleware.LocalizarEntidadeEscolar
+);
+
+router.get(
+  "/todasEntidadesEscolares",
+  entidadesEscolares.TodasEntidadesEscolaresMiddleware.TodasEntidadesEscolares
+);
+
+router.post(
+  "/localizarEntidadesEscolaresUsuariosPDG",
+  entidadesEscolares.LocalizarEntidadesEscolaresUsuariosPDGMiddleware
+    .LocalizarEntidadesEscolaresUsuariosPDG
+);
+
+router.post(
+  "/deletarEntidadeEscolar",
+  entidadesEscolares.DeletarEntidadeEscolarMiddleware.DeletarEntidadeEscolar
+);
+
 // router.post(
 //   "/registrarProfessor",
 //   auxiliaryFunctionProfessores.registrarProfessor
@@ -70,27 +111,6 @@ router.post(
 
 // router.post("/localizarDadosUsuario", auxiliaryFunction.localizarDadosUsuario);
 
-router.post(
-  "/localizarEntidadesEscolares",
-  auxiliaryFunctionEscola.localizarEntidadesEscolares
-);
-// router.get(
-//   "/todasEntidadesEscolares",
-//   auxiliaryFunctionEscola.todasEntidadesEscolares
-// );
-// router.post(
-//   "/localizarEntidadeEscolar",
-//   auxiliaryFunctionEscola.localizarEntidadeEscolar
-// );
-
-// router.post(
-//   "/localizarEntidadesEscolaresUsuariosPDG",
-//   auxiliaryFunctionEscola.localizarEntidadesEscolaresUsuariosPDG
-// );
-// router.post(
-//   "/editarEntidadeEscolar",
-//   auxiliaryFunctionEscola.editarEntidadeEscolar
-// );
 // // router.post(
 // //   "/deletarUsuarioEscola",
 // //   users.dele
@@ -102,15 +122,6 @@ router.post(
 // router.post(
 //   "/editarEntidadeContratual",
 //   auxiliaryFunctionContract.editarEntidadeContratual
-// );
-// router.post(
-//   "/sobrescreverContrato",
-//   auxiliaryFunctionContract.sobreescreverContrato
-// );
-
-// router.post(
-//   "/registrarEntidadeEscolar",
-//   auxiliaryFunctionEscola.registrarEntidadeEscolar
 // );
 
 // router.post("/localizarContrato", auxiliaryFunctionContract.localizarContrato);
