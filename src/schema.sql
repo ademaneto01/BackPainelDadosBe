@@ -88,12 +88,12 @@ CREATE TABLE AuxiliarDocEscolas (
 drop table if exists pedagogico.professores;
 create table pedagogico.professores (
     id UUID default uuid_generate_v4() primary key,
-    id_ee UUID references EntidadesEscolares(id),
+    -- id_ee UUID references EntidadesEscolares(id),
     nome varchar(100),
     ativo boolean default true,
     especialista boolean default false,
     email_primario varchar(100),
-    email_secundario varchar(100)
+    email_secundario varchar(100),
     criado_em timestamp default current_timestamp
  );
 
