@@ -1,7 +1,10 @@
 const connection = require("../../connection");
 
-const ATIVO = false;
-const DELETED = true;
+const ATIVO_TRUE = true;
+const ATIVO_FALSE = false;
+
+const DELETED_TRUE = true;
+const DELETED_FALSE = false;
 
 async function SobreEscreverContrato(req, res) {
   const contratoData = req.body;
@@ -29,6 +32,7 @@ async function SobreEscreverContrato(req, res) {
     const entidadesEscolares = await findEntidadesEscolares(
       contratoData.uuid_ec
     );
+
     await duplicateEntidadesEscolares(entidadesEscolares, registredContract.id);
     await deactivateEntidadesEscolares(entidadesEscolares);
 
@@ -58,13 +62,15 @@ function isValidData(data) {
 async function deactivateContract(uuid_ec) {
   const query =
     "UPDATE entidades_contratuais SET ativo = $1, deleted = $2 WHERE id = $3 RETURNING *";
-  const { rows } = await connection.query(query, [ATIVO, DELETED, uuid_ec]);
+  const { rows } = await connection.query(query, [
+    ATIVO_FALSE,
+    DELETED_TRUE,
+    uuid_ec,
+  ]);
   return rows;
 }
 
 async function insertNewContract(contratoData, qtdescolas) {
-  const situacaoRegistrarEntidade = true;
-  const deletedFalseParaInsert = false;
   const query = `INSERT INTO entidades_contratuais (nome_simplificado, razao_social, cnpj_cont, cep, endereco, cidade, uf, bairro, complemento, bo_rede, QtdEscolas, ativo, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
   const { rows } = await connection.query(query, [
     contratoData.nome_simplificado,
@@ -78,16 +84,20 @@ async function insertNewContract(contratoData, qtdescolas) {
     contratoData.complemento,
     contratoData.bo_rede,
     qtdescolas,
-    situacaoRegistrarEntidade,
-    deletedFalseParaInsert,
+    ATIVO_TRUE,
+    DELETED_FALSE,
   ]);
   return rows[0] || null;
 }
 
 async function findEntidadesEscolares(uuid_ec) {
   const query =
-    "SELECT * FROM  entidades_escolares WHERE uuid_ec = $1 AND ativo = $2";
-  const { rows } = await connection.query(query, [uuid_ec, ATIVO]);
+    "SELECT * FROM  entidades_escolares WHERE uuid_ec = $1 AND ativo = $2 AND deleted = $3";
+  const { rows } = await connection.query(query, [
+    uuid_ec,
+    ATIVO_TRUE,
+    DELETED_FALSE,
+  ]);
   return rows;
 }
 
@@ -98,9 +108,6 @@ async function duplicateEntidadesEscolares(entidades, newContractId) {
             bairro, complemento, uuid_ec, ativo, deleted
         ) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
-
-  const situacaoRegistrarEntidade = true;
-  const deletedFalseParaInsert = false;
 
   for (let entidadeNew of entidades) {
     const { rows: inserindoNovaEntidade } = await connection.query(
@@ -115,8 +122,8 @@ async function duplicateEntidadesEscolares(entidades, newContractId) {
         entidadeNew.bairro,
         entidadeNew.complemento,
         newContractId,
-        situacaoRegistrarEntidade,
-        deletedFalseParaInsert,
+        ATIVO_TRUE,
+        DELETED_FALSE,
       ]
     );
 
@@ -139,8 +146,6 @@ async function duplicateEntidadesEscolares(entidades, newContractId) {
 }
 
 async function deactivateEntidadesEscolares(entidades) {
-  const situacaoSobreescreverEntidadesEscolares = false;
-  const setarParaDeletado = true;
   const querySobreescreverEntidade = `
         UPDATE entidades_escolares 
         SET ativo = $1, deleted = $2 
@@ -148,8 +153,8 @@ async function deactivateEntidadesEscolares(entidades) {
 
   for (let entidade of entidades) {
     await connection.query(querySobreescreverEntidade, [
-      situacaoSobreescreverEntidadesEscolares,
-      setarParaDeletado,
+      ATIVO_FALSE,
+      DELETED_TRUE,
       entidade.id,
     ]);
   }

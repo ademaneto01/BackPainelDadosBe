@@ -28,13 +28,13 @@ async function LocalizarEntidadeEscolar(req, res) {
     if (usuarioPDG) {
       entidade.id_usuario_pdg = usuarioPDG.id_usuario;
     } else {
-      entidade.id_usuario_pdg = null; // ou outro valor padrão
+      entidade.id_usuario_pdg = null;
     }
 
     if (urlDados) {
       entidade.url_dados = urlDados.url_dados;
     } else {
-      entidade.url_dados = null; // ou outro valor padrão
+      entidade.url_dados = null;
     }
 
     return res.status(200).json([entidade]);

@@ -22,7 +22,6 @@ async function LocalizarEntidadesEscolaresUsuariosPDG(req, res) {
     const entidadesEscolares = await fetchEntidadesEscolaresByUserId(userId);
     return res.status(200).json(entidadesEscolares);
   } catch (error) {
-    console.error("Error fetching data:", error); // logging the error can help in diagnosing issues in production
     return res
       .status(500)
       .json({ mensagem: "Erro ao buscar entidades escolares." });

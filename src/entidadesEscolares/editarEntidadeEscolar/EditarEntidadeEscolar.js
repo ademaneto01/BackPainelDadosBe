@@ -31,7 +31,7 @@ async function updatePainelDados(id, url_dados) {
 async function manageUsuarioPDG(id, id_usuario_pdg) {
   const queryFindUserPDG = "SELECT * FROM usuarios_pdg WHERE id_ee = $1";
   await connection.query(queryFindUserPDG, [id]);
-  if (queryFindUserPDG) {
+  if (queryFindUserPDG && id_usuario_pdg) {
     const deletarUsuarioPDG = "DELETE FROM usuarios_pdg WHERE id_ee = $1";
     await connection.query(deletarUsuarioPDG, [id]);
   }
