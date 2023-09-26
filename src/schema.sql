@@ -1,109 +1,119 @@
 CREATE DATABASE DBPainelDadosBe;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TABLE if exists usuarios;
+-- DROP TABLE if exists usuarios;
 
-CREATE TABLE usuarios (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    senha VARCHAR(100) NOT NULL,
-    escola VARCHAR(100) NOT NULL,
-    perfil VARCHAR(100) NOT NULL
-);
+-- CREATE TABLE usuarios (
+--     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+--     nome VARCHAR(100) NOT NULL,
+--     email VARCHAR(100) NOT NULL UNIQUE,
+--     senha VARCHAR(100) NOT NULL,
+--     escola VARCHAR(100) NOT NULL,
+--     perfil VARCHAR(100) NOT NULL
+-- );
 
-DROP TABLE if exists painel_dados;
+-- DROP TABLE if exists painel_dados;
 
-CREATE TABLE painel_dados (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    url_dados TEXT,
-    time_stamp TEXT,
-    id_usuario UUID REFERENCES usuarios(id)
-);
+-- CREATE TABLE painel_dados (
+--     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+--     url_dados TEXT,
+--     time_stamp TEXT,
+--     id_usuario UUID REFERENCES usuarios(id)
+-- );
 
-DROP TABLE if exists contratos;
+-- DROP TABLE if exists contratos;
 
-CREATE TABLE contratos (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    nome_simplificado TEXT,
-    razao_social TEXT,
-    cnpj TEXT,
-    cep TEXT,
-    endereco TEXT,
-    cidade TEXT,
-    uf TEXT,
-    bairro TEXT,
-    situacao TEXT,
-    complemento TEXT,
-    QtdEscolas INTEGER
-);
+-- CREATE TABLE contratos (
+--     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+--     nome_simplificado TEXT,
+--     razao_social TEXT,
+--     cnpj TEXT,
+--     cep TEXT,
+--     endereco TEXT,
+--     cidade TEXT,
+--     uf TEXT,
+--     bairro TEXT,
+--     situacao TEXT,
+--     complemento TEXT,
+--     QtdEscolas INTEGER
+-- );
 
-DROP TABLE if exists EntidadesEscolares;
+-- DROP TABLE if exists EntidadesEscolares;
 
-CREATE TABLE EntidadesEscolares (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    condicao TEXT,
-    codigo_be TEXT,
-    nome_contratual TEXT,
-    tipo_rede TEXT, 
-    nome_operacional TEXT,
-    cnpj_escola TEXT,
-    cep TEXT,
-    endereco TEXT, 
-    cidade TEXT, 
-    uf TEXT,
-    bairro TEXT,
-    complemento TEXT,
-    situacao TEXT,
-    id_contrato UUID REFERENCES contratos(id)
-);
+-- CREATE TABLE EntidadesEscolares (
+--     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+--     condicao TEXT,
+--     codigo_be TEXT,
+--     nome_contratual TEXT,
+--     tipo_rede TEXT, 
+--     nome_operacional TEXT,
+--     cnpj_escola TEXT,
+--     cep TEXT,
+--     endereco TEXT, 
+--     cidade TEXT, 
+--     uf TEXT,
+--     bairro TEXT,
+--     complemento TEXT,
+--     situacao TEXT,
+--     id_contrato UUID REFERENCES contratos(id)
+-- );
 
-DROP TABLE if exists AuxiliarUserEscolas;
+-- DROP TABLE if exists AuxiliarUserEscolas;
 
-CREATE TABLE AuxiliarUserEscolas (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    id_usuario UUID REFERENCES usuarios(id),
-    id_escola UUID REFERENCES EntidadesEscolares(id)
- );
+-- CREATE TABLE AuxiliarUserEscolas (
+--     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+--     id_usuario UUID REFERENCES usuarios(id),
+--     id_escola UUID REFERENCES EntidadesEscolares(id)
+--  );
 
-DROP TABLE if exists AuxiliarDocContratos;
+-- DROP TABLE if exists AuxiliarDocContratos;
 
-CREATE TABLE AuxiliarDocContratos (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    id_contrato UUID REFERENCES contratos(id),
-    doc TEXT
- );
+-- CREATE TABLE AuxiliarDocContratos (
+--     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+--     id_contrato UUID REFERENCES contratos(id),
+--     doc TEXT
+--  );
 
-DROP TABLE if exists AuxiliarDocEscolas;
+-- DROP TABLE if exists AuxiliarDocEscolas;
 
-CREATE TABLE AuxiliarDocEscolas (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    id_escola UUID REFERENCES EntidadesEscolares(id),
-    doc TEXT
- );
+-- CREATE TABLE AuxiliarDocEscolas (
+--     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+--     id_escola UUID REFERENCES EntidadesEscolares(id),
+--     doc TEXT
+--  );
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 -- Sugestão para cadastro de professores
-drop table if exists pedagogico.professores;
-create table pedagogico.professores (
+drop table if exists agentes_externos;
+create table agentes_externos(
     id UUID default uuid_generate_v4() primary key,
-    -- id_ee UUID references EntidadesEscolares(id),
     nome varchar(100),
     ativo boolean default true,
-    especialista boolean default false,
     email_primario varchar(100),
     email_secundario varchar(100),
-    criado_em timestamp default current_timestamp
+    criado_em timestamp default current_timestamp,
  );
 
-drop table if exists vinculo_profs;
-create table vinculo_profs(
+drop table if exists vinculos_agentes_externos;
+create table vinculos_agentes_externos(
     id UUID default uuid_generate_v4() primary key,
-    id_prof UUID references pedagogico.professores(id),
-	id_escola UUID references EntidadesEscolares(id),
-    /*Booleano para cada série escolar*/
-)
+    id_prof UUID references agentes_externos(id),
+	id_escola UUID references entidades_escolares(id),
+    especialista boolean default false,
+    bo_3EI boolean default false,
+    bo_4EI boolean default false,
+    bo_5EI boolean default false,
+    bo_1AI boolean default false,
+    bo_2AI boolean default false,
+    bo_3AI boolean default false,
+    bo_4AI boolean default false,
+    bo_5AI boolean default false,
+    bo_6Af boolean default false,
+    bo_7AF boolean default false,
+    bo_8AF boolean default false,
+    bo_9AF boolean default false
+);
 
 drop table if exists usuarios;
 

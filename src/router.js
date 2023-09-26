@@ -1,12 +1,9 @@
 const { Router } = require("express");
 
-// const auxiliaryFunction = require("./auxiliaryFunction/findDadosUser");
-// const auxiliaryFunctionContract = require("./auxiliaryFunction/contratos");
-// const auxiliaryFunctionEscola = require("./auxiliaryFunction/EntidadesEscolares");
-// const auxiliaryFunctionProfessores = require("./auxiliaryFunction/professores");
 const usuario = require("./controlersUsers/index");
 const contratos = require("./contratos/index");
 const entidadesEscolares = require("./entidadesEscolares/index");
+const agentesExternos = require("./agenteEscolares/index");
 // const validateToken = require("./middlewear/token");
 
 const router = Router();
@@ -103,27 +100,42 @@ router.post(
   "/deletarEntidadeEscolar",
   entidadesEscolares.DeletarEntidadeEscolarMiddleware.DeletarEntidadeEscolar
 );
-
-// router.post(
-//   "/registrarProfessor",
-//   auxiliaryFunctionProfessores.registrarProfessor
-// );
-
-// router.post("/localizarDadosUsuario", auxiliaryFunction.localizarDadosUsuario);
-
-// // router.post(
-// //   "/deletarUsuarioEscola",
-// //   users.dele
-// // );
-// router.post(
-//   "/deletarEntidadeEscolar",
-//   auxiliaryFunctionEscola.deletarEntidadeEscolar
-// );
-// router.post(
-//   "/editarEntidadeContratual",
-//   auxiliaryFunctionContract.editarEntidadeContratual
-// );
-
-// router.post("/localizarContrato", auxiliaryFunctionContract.localizarContrato);
-
+/////////////////////////////AGENTES EXTERNOS/////////////////
+router.post(
+  "/registrarAgente",
+  agentesExternos.RegistrarAgenteMiddleware.RegistrarAgente
+);
+router.post(
+  "/vincularAgente",
+  agentesExternos.VincularAgenteMiddleware.VincularAgente
+);
+router.post(
+  "/listarTodosAgentes",
+  agentesExternos.ListarTodosAgentesMiddleware.ListarTodosAgentes
+);
+router.post(
+  "/ListarAgentesRelacionadoEscola",
+  agentesExternos.ListarAgentesRelacionadoEscolaMiddleware
+    .ListarAgentesRelacionadoEscola
+);
+router.post(
+  "/editarAgente",
+  agentesExternos.EditarAgenteMiddleware.EditarAgente
+);
+router.post(
+  "/deletarAgente",
+  agentesExternos.DeletarAgenteMiddleware.DeletarAgente
+);
+router.post(
+  "/localizarAgenteId",
+  agentesExternos.LocalizarAgenteIdMiddleware.LocalizarAgenteId
+);
+router.post(
+  "/listarVinculoAgente",
+  agentesExternos.ListarVinculoAgenteMiddleware.ListarVinculoAgente
+);
+router.post(
+  "/deletarVinculoAgente",
+  agentesExternos.DeletarVinculoAgenteMiddleware.DeletarVinculoAgente
+);
 module.exports = router;
