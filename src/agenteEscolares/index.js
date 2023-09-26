@@ -7,6 +7,7 @@ const DeletarAgenteMiddleware = require("./deletarAgente/deletarAgente");
 const LocalizarAgenteIdMiddleware = require("./localizarAgenteId/localizarAgenteId");
 const ListarVinculoAgenteMiddleware = require("./listarVinculoAgente/listarVinculoAgente");
 const DeletarVinculoAgenteMiddleware = require("./deletarVinculoAgente/deletarVinculoAgente");
+const EditarVinculoAgenteMiddleware = require("./editarVinculoAgente/editarVinculoAgente");
 module.exports = {
   RegistrarAgenteMiddleware,
   VincularAgenteMiddleware,
@@ -17,4 +18,5 @@ module.exports = {
   LocalizarAgenteIdMiddleware,
   ListarVinculoAgenteMiddleware,
   DeletarVinculoAgenteMiddleware,
+  EditarVinculoAgenteMiddleware,
 };

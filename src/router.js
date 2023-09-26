@@ -138,4 +138,8 @@ router.post(
   "/deletarVinculoAgente",
   agentesExternos.DeletarVinculoAgenteMiddleware.DeletarVinculoAgente
 );
+router.post(
+  "/editarVinculoAgente",
+  agentesExternos.EditarVinculoAgenteMiddleware.EditarVinculoAgente
+);
 module.exports = router;
