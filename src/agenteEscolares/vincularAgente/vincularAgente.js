@@ -16,7 +16,7 @@ async function VincularAgente(req, res) {
     if (!vincularAgente) {
       return sendErrorResponse(res, 400, "Não foi possível vincular o agente.");
     }
-    return res.status(201).json([vincularAgente]);
+    return res.status(200).json([vincularAgente]);
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }

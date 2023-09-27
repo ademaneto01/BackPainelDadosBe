@@ -109,7 +109,7 @@ router.post(
   "/vincularAgente",
   agentesExternos.VincularAgenteMiddleware.VincularAgente
 );
-router.post(
+router.get(
   "/listarTodosAgentes",
   agentesExternos.ListarTodosAgentesMiddleware.ListarTodosAgentes
 );
