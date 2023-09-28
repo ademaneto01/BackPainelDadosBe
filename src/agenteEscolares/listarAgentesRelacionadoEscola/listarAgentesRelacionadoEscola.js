@@ -15,7 +15,7 @@ async function fetchAgentes(id_ee) {
     SELECT agentes.*
     FROM agentes_externos agentes
     INNER JOIN vinculos_agentes_externos vinculos
-    ON agentes.id = vinculos.id_prof
+    ON agentes.uuid_agente = vinculos.id_prof
     WHERE vinculos.id_escola = $1
   `;
 

@@ -27,26 +27,24 @@ async function RegistrarAgente(req, res) {
 }
 
 function validateRequiredFields(fields) {
-  const requiredFields = [
-    "nome",
-    "email_primario",
-    "email_secundario",
-    "ativo",
-  ];
+  const requiredFields = ["nome", "cargo", "email_primario", "ativo"];
 
   return requiredFields.every((field) => fields[field]);
 }
 
 async function insertUserAgente(fields) {
-  const { nome, email_primario, email_secundario, ativo } = fields;
+  const { nome, cargo, telefone, email_primario, email_secundario, ativo } =
+    fields;
 
   const query =
-    "INSERT INTO agentes_externos (nome, email_primario, email_secundario, ativo) VALUES ($1, $2, $3, $4) RETURNING *";
+    "INSERT INTO agentes_externos (nome, cargo, nu_telefone, no_email_primario, no_email_secundario, bo_ativo) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
 
   const {
     rows: [registeredAgente],
   } = await connection.query(query, [
     nome,
+    cargo,
+    telefone,
     email_primario,
     email_secundario,
     ativo,

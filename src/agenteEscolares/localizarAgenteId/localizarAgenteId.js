@@ -11,7 +11,7 @@ async function LocalizarAgenteId(req, res) {
 }
 
 async function fetchAgenteById(id) {
-  const query = "SELECT * FROM agentes_externos WHERE id = $1";
+  const query = "SELECT * FROM agentes_externos WHERE uuid_agente = $1";
   const { rows } = await connection.query(query, [id]);
   return rows;
 }

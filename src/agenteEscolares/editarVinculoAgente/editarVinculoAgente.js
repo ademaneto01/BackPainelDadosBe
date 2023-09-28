@@ -16,7 +16,7 @@ async function EditarVinculoAgente(req, res) {
     if (!updatedVinculoAgente) {
       return sendErrorResponse(res, 400, "Não foi possível vincular o agente.");
     }
-    return res.status(201).json([updatedVinculoAgente]);
+    return res.status(200).json([updatedVinculoAgente]);
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }

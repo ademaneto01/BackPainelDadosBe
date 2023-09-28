@@ -87,18 +87,20 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Sugestão para cadastro de professores
 drop table if exists agentes_externos;
 create table agentes_externos(
-    id UUID default uuid_generate_v4() primary key,
+    uuid_agente UUID default uuid_generate_v4() primary key,
     nome varchar(100),
-    ativo boolean default true,
-    email_primario varchar(100),
-    email_secundario varchar(100),
-    criado_em timestamp default current_timestamp,
+    cargo varchar(50),
+    nu_telefone varchar(50),
+    bo_ativo boolean default true,
+    no_email_primario varchar(100),
+    no_email_secundario varchar(100),
+    criado_em timestamp default current_timestamp
  );
 
 drop table if exists vinculos_agentes_externos;
 create table vinculos_agentes_externos(
     id UUID default uuid_generate_v4() primary key,
-    id_prof UUID references agentes_externos(id),
+    id_prof UUID references agentes_externos(uuid_agente),
 	id_escola UUID references entidades_escolares(id),
     especialista boolean default false,
     bo_3EI boolean default false,

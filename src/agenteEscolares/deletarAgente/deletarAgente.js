@@ -25,7 +25,7 @@ async function DeletarAgente(req, res) {
 }
 
 async function getUserById(userId) {
-  const selectQuery = "SELECT * FROM agentes_externos WHERE id = $1";
+  const selectQuery = "SELECT * FROM agentes_externos WHERE uuid_agente = $1";
   const { rows } = await connection.query(selectQuery, [userId]);
   return rows[0];
 }
@@ -43,7 +43,7 @@ async function deleteVinculoUser(userId) {
 }
 
 async function deleteUser(userId) {
-  const query = "DELETE FROM agentes_externos WHERE id = $1";
+  const query = "DELETE FROM agentes_externos WHERE uuid_agente = $1";
   await connection.query(query, [userId]);
 }
 
