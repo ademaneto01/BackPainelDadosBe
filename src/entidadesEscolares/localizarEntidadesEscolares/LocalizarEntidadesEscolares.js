@@ -5,6 +5,7 @@ async function fetchEntidadesEscolares(uuid_ec) {
     "SELECT * FROM entidades_escolares WHERE uuid_ec = $1 AND deleted = $2";
   const deleted = false;
   const { rows } = await connection.query(query, [uuid_ec, deleted]);
+
   return rows;
 }
 

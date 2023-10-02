@@ -72,8 +72,7 @@ async function RegistrarEntidadeEscolar(req, res) {
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento ||
-    !url_dados
+    !complemento
   ) {
     return res
       .status(400)

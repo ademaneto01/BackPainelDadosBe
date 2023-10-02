@@ -100,6 +100,12 @@ router.post(
   "/deletarEntidadeEscolar",
   entidadesEscolares.DeletarEntidadeEscolarMiddleware.DeletarEntidadeEscolar
 );
+
+router.post(
+  "/localizarUrlPainel",
+  entidadesEscolares.LocalizarUrlPainelMiddleware.LocalizarUrlPainel
+);
+
 /////////////////////////////AGENTES EXTERNOS/////////////////
 router.post(
   "/registrarAgente",

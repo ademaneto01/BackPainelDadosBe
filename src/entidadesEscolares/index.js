@@ -5,6 +5,7 @@ const TodasEntidadesEscolaresMiddleware = require("./todasEntidadesEscolares/Tod
 const LocalizarEntidadeEscolarMiddleware = require("./localizarEntidadeEscolar/LocalizarEntidadeEscolar");
 const LocalizarEntidadesEscolaresUsuariosPDGMiddleware = require("./localizarEntidadesEscolaresUsuariosPDG/LocalizarEntidadesEscolaresUsuariosPDG");
 const DeletarEntidadeEscolarMiddleware = require("./deletarEntidadeEscolar/DeletarEntidadeEscolar");
+const LocalizarUrlPainelMiddleware = require("./localizarUrlPainel/LocalizarUrlPainel");
 module.exports = {
   RegistrarEntidadeEscolarMiddleware,
   EditarEntidadeEscolarMiddleware,
@@ -13,4 +14,5 @@ module.exports = {
   LocalizarEntidadeEscolarMiddleware,
   LocalizarEntidadesEscolaresUsuariosPDGMiddleware,
   DeletarEntidadeEscolarMiddleware,
+  LocalizarUrlPainelMiddleware,
 };

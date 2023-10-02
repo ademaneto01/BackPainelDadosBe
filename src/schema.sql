@@ -141,10 +141,9 @@ drop table if exists painel_dados;
 
 create table painel_dados (
     id UUID default uuid_generate_v4() primary key,
-    -- vincular o painel à escola
     id_ee UUID references entidade_escolar(id),
     url_dados text,
-    time_stamp text,
+    criado_em timestamp default current_timestamp
 );
 
 

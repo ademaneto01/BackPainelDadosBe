@@ -5,9 +5,10 @@ async function fetchEntidadesEscolaresByUserId(userId) {
     SELECT entidades_escolares.* 
     FROM entidades_escolares
     JOIN usuarios_pdg ON entidades_escolares.id = usuarios_pdg.id_ee
-    WHERE usuarios_pdg.id_usuario = $1 
+    WHERE usuarios_pdg.id_usuario = $1 AND entidades_escolares.deleted = $2
   `;
-  const { rows } = await connection.query(query, [userId]);
+  const deleted = false;
+  const { rows } = await connection.query(query, [userId, deleted]);
   return rows;
 }
 

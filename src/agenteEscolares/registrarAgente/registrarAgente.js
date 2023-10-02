@@ -20,7 +20,7 @@ async function RegistrarAgente(req, res) {
         "Não foi possível cadastrar o agente."
       );
     }
-    return res.status(201).json([registeredAgente]);
+    return res.status(200).json([registeredAgente]);
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }
