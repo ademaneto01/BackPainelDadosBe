@@ -199,6 +199,25 @@ create table relacionamento.infos_contrato (
 	reajuste_igpm_ipca boolean
 );
 
+drop table if exists docs_contrato;
+create table docs_contrato (
+	id UUID default uuid_generate_v4() primary key,
+	uuid_ec UUID references entidades_contratuais(id),
+	nome_doc varchar(200),
+    url_doc varchar(200)
+    criado_em timestamp default current_timestamp
+);
+
+drop table if exists docs_entidades_escolares;
+create table docs_entidades_escolares (
+	id UUID default uuid_generate_v4() primary key,
+	id_ee UUID references entidade_escolar(id),
+	nome_doc varchar(200),
+    url_doc varchar(200)
+    criado_em timestamp default current_timestamp
+);
+
+
 
 -- AuxiliarDocContratos : Armazena documentos referentes ao contrato com a escola (apenas usuário ADM)
 drop table if exists relacionamento.docs_contrato;

@@ -38,6 +38,11 @@ router.post(
 );
 
 router.post(
+  "/registrarDocContrato",
+  contratos.RegistrarDocMiddleware.RegistrarDoc
+);
+
+router.post(
   "/editarEntidadeContratual",
   contratos.EditarEntidadeContratualMiddleware.EditarEntidadeContratual
 );
