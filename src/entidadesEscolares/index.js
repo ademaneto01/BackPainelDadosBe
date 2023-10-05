@@ -6,6 +6,9 @@ const LocalizarEntidadeEscolarMiddleware = require("./localizarEntidadeEscolar/L
 const LocalizarEntidadesEscolaresUsuariosPDGMiddleware = require("./localizarEntidadesEscolaresUsuariosPDG/LocalizarEntidadesEscolaresUsuariosPDG");
 const DeletarEntidadeEscolarMiddleware = require("./deletarEntidadeEscolar/DeletarEntidadeEscolar");
 const LocalizarUrlPainelMiddleware = require("./localizarUrlPainel/LocalizarUrlPainel");
+const RegistrarDocEntidadeMiddleware = require("./registrarDocEntidade/RegistrarDocEntidade");
+const listarDocsEntidadeMiddleware = require("./listarDocsEntidade/ListarDocsEntidade");
+const DeletarDocEntidadeMiddleware = require("./deletarDocEntidade/DeletarDocEntidade");
 module.exports = {
   RegistrarEntidadeEscolarMiddleware,
   EditarEntidadeEscolarMiddleware,
@@ -15,4 +18,7 @@ module.exports = {
   LocalizarEntidadesEscolaresUsuariosPDGMiddleware,
   DeletarEntidadeEscolarMiddleware,
   LocalizarUrlPainelMiddleware,
+  RegistrarDocEntidadeMiddleware,
+  listarDocsEntidadeMiddleware,
+  DeletarDocEntidadeMiddleware,
 };

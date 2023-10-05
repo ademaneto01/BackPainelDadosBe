@@ -41,7 +41,10 @@ router.post(
   "/registrarDocContrato",
   contratos.RegistrarDocMiddleware.RegistrarDoc
 );
-
+router.post(
+  "/listarDocsContrato",
+  contratos.ListarDocsContratoMiddleware.ListarDocsContrato
+);
 router.post(
   "/editarEntidadeContratual",
   contratos.EditarEntidadeContratualMiddleware.EditarEntidadeContratual
@@ -61,7 +64,10 @@ router.post(
   "/deletarContrato",
   contratos.DeletarContratoMiddleware.DeletarContrato
 );
-
+router.post(
+  "/deletarDocContrato",
+  contratos.DeletarDocContratoMiddleware.DeletarDocContrato
+);
 router.post(
   "/sobrescreverContrato",
   contratos.SobreEscreverContratoMiddleware.SobreEscreverContrato
@@ -109,6 +115,20 @@ router.post(
 router.post(
   "/localizarUrlPainel",
   entidadesEscolares.LocalizarUrlPainelMiddleware.LocalizarUrlPainel
+);
+
+router.post(
+  "/listarDocsEntidade",
+  entidadesEscolares.listarDocsEntidadeMiddleware.ListarDocsEntidade
+);
+router.post(
+  "/registrarDocEntidade",
+  entidadesEscolares.RegistrarDocEntidadeMiddleware.RegistrarDocEntidade
+);
+
+router.post(
+  "/deletarDocEntidade",
+  entidadesEscolares.DeletarDocEntidadeMiddleware.DeletarDocEntidade
 );
 
 /////////////////////////////AGENTES EXTERNOS/////////////////
