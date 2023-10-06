@@ -7,6 +7,9 @@ const SobreEscreverContratoMiddleware = require("./sobreEscreverContrato/SobreEs
 const RegistrarDocMiddleware = require("./registrarDoc/RegistrarDoc");
 const ListarDocsContratoMiddleware = require("./listarDocsContrato/ListarDocsContrato");
 const DeletarDocContratoMiddleware = require("./deletarDocContrato/DeletarDocContrato");
+const ListarInfosContratoMiddleware = require("./listarInfosContrato/ListarInfosContrato");
+const RegistrarInfosContratoMiddleware = require("./registrarInfosContrato/RegistrarInfosContrato");
+const DeletarInfosContratoMiddleware = require("./deletarInfosContrato/DeletarInfosContrato");
 module.exports = {
   RegistrarEntidadeContratualMiddleware,
   EditarEntidadeContratualMiddleware,
@@ -17,4 +20,7 @@ module.exports = {
   RegistrarDocMiddleware,
   ListarDocsContratoMiddleware,
   DeletarDocContratoMiddleware,
+  ListarInfosContratoMiddleware,
+  RegistrarInfosContratoMiddleware,
+  DeletarInfosContratoMiddleware,
 };

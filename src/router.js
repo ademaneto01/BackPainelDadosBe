@@ -72,7 +72,19 @@ router.post(
   "/sobrescreverContrato",
   contratos.SobreEscreverContratoMiddleware.SobreEscreverContrato
 );
+router.post(
+  "/listarInfosContrato",
+  contratos.ListarInfosContratoMiddleware.ListarInfosContrato
+);
 
+router.post(
+  "/registrarInfosContrato",
+  contratos.RegistrarInfosContratoMiddleware.RegistrarInfosContrato
+);
+router.post(
+  "/deletarInfosContrato",
+  contratos.DeletarInfosContratoMiddleware.DeletarInfosContrato
+);
 /////////////////////ENTIDADES ESCOLARES ///////////////////
 
 router.post(
