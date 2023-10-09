@@ -85,6 +85,10 @@ router.post(
   "/deletarInfosContrato",
   contratos.DeletarInfosContratoMiddleware.DeletarInfosContrato
 );
+router.post(
+  "/editarInfosContrato",
+  contratos.EditarInfosContratoMiddleware.EditarInfosContrato
+);
 /////////////////////ENTIDADES ESCOLARES ///////////////////
 
 router.post(
