@@ -46,7 +46,7 @@ async function isPasswordValid(plainPassword, hashedPassword) {
 function generateUserToken(user) {
   delete user.senha;
 
-  const token = jwt.sign({ id: user.id }, jwtSecret);
+  const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: "12h" });
   return [
     {
       id: user.id,
