@@ -8,7 +8,7 @@ async function validateToken(req, res, next) {
   if (!authorization || authorization === "Bearer") {
     return res.status(401).json({
       mensagem:
-        "Para acessar este recurso um token de autenticação válido deve ser enviado.",
+        "Para acessar este recurso um token de autenticação válido djasdjaslk deve ser enviado.",
     });
   }
 
@@ -23,7 +23,7 @@ async function validateToken(req, res, next) {
     if (user.rowCount === 0) {
       return res.status(400).json({
         mensagem:
-          "Para acessar este recurso um token de autenticação válido deve ser enviado.",
+          "Para acessar este recurso um token de autenticação as válido deve ser enviado.",
       });
     }
 

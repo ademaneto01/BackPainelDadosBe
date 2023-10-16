@@ -2,7 +2,7 @@ const connection = require("../../connection");
 
 async function RegistrarEntidadeContratual(req, res) {
   const fields = req.body;
-
+  console.log("okkkk");
   if (!validateRequiredFields(fields)) {
     return sendErrorResponse(
       res,

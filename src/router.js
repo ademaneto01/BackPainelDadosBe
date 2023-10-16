@@ -13,7 +13,7 @@ router.post(
 );
 router.post("/login", usuario.LoginMiddleware.Login);
 
-// // router.use(validateToken);
+// router.use(validateToken);
 router.post("/editarUsuario", usuario.EditarUsuarioMiddleware.EditarUsuario);
 router.post(
   "/localizarUsuario",

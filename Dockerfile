@@ -1,20 +1,17 @@
-# Use a imagem base do Node.js
+
+# Use a imagem base do Node.js com um servidor HTTP embutido (por exemplo, Nginx)
 FROM node:18-alpine
 
-# Crie um diretório para o backend dentro do contêiner
+# Crie um diretório para o frontend dentro do contêiner
 WORKDIR /app
 
 # Copie o arquivo package.json e package-lock.json para o contêiner
 COPY package.json yarn.lock ./
 
-# Instale as dependências do Node.js para o backend
+# Instale as dependências do Node.js para o frontend
 RUN yarn install
 
-# Copie o resto do código fonte do backend para o contêiner
+# Copie o resto do código fonte do frontend para o contêiner
 COPY . .
 
-# Exponha a porta do servidor Node.js (por exemplo, 3001, caso sua API utilize essa porta)
-EXPOSE 3001
-
-# Comando para iniciar o servidor Node.js (verifique qual é o comando para iniciar o servidor no seu projeto)
 CMD ["yarn", "dev"]
