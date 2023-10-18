@@ -33,7 +33,6 @@ create table entidades_escolares (
     uf varchar(2),
     bairro varchar(100),
     complemento varchar(200),
-    id_usuario_pdg UUID,
     ativo boolean default true,
     deleted boolean default false
 );
