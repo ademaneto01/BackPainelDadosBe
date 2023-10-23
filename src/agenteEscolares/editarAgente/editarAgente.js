@@ -33,11 +33,11 @@ function validateRequiredFields(fields) {
 }
 
 async function updateAgente(fields) {
-  const { id, nome, telefone, cargo, email_primario, email_secundario, ativo } =
+  const { id, nome, telefone, cargo, email_primario, email_secundario, data_nascimento, ativo } =
     fields;
 
   const updateDados =
-    "UPDATE agentes_externos SET nome = $1, nu_telefone = $2, no_email_primario = $3, no_email_secundario = $4, cargo = $5, bo_ativo = $6  WHERE uuid_agente = $7 RETURNING *";
+    "UPDATE agentes_externos SET nome = $1, nu_telefone = $2, no_email_primario = $3, no_email_secundario = $4, cargo = $5, data_nascimento = $6, bo_ativo = $7  WHERE uuid_agente = $8 RETURNING *";
 
   const { rows } = await connection.query(updateDados, [
     nome,
@@ -45,6 +45,7 @@ async function updateAgente(fields) {
     email_primario,
     email_secundario,
     cargo,
+    data_nascimento,
     ativo,
     id,
   ]);

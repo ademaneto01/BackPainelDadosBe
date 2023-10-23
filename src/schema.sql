@@ -98,6 +98,7 @@ create table agentes_externos(
     uuid_agente UUID default uuid_generate_v4() primary key,
     nome varchar(100),
     cargo varchar(50),
+    data_nascimento varchar(10),
     nu_telefone varchar(50),
     bo_ativo boolean default true,
     no_email_primario varchar(100),
@@ -125,11 +126,5 @@ create table vinculos_agentes_externos(
     bo_9AF boolean default false
 );
 
-DROP TABLE if exists AuxiliarDocEscolas;
-CREATE TABLE AuxiliarDocEscolas (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    id_escola UUID REFERENCES entidades_escolares(id),
-    doc TEXT
- );
 
 
