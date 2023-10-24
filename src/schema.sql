@@ -99,6 +99,7 @@ create table agentes_externos(
     nome varchar(100),
     cargo varchar(50),
     data_nascimento varchar(10),
+    interlocutor boolean default false,
     nu_telefone varchar(50),
     bo_ativo boolean default true,
     no_email_primario varchar(100),
