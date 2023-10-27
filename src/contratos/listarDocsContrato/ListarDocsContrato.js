@@ -7,7 +7,7 @@ async function ListarDocsContrato(req, res) {
     const contractData = await fetchDocstByIdContrato(uuid_ec);
 
     if (!contractData) {
-      return sendErrorResponse(res, 400, "Docs não encontrado.");
+      return sendErrorResponse(res, 400, "Ainda não existe Docs cadastrado...");
     }
 
     return res.status(200).json(contractData);

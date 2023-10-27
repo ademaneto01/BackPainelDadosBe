@@ -27,7 +27,17 @@ async function updatePainelDados(id, url_dados) {
   const query = "UPDATE painel_dados SET url_dados = $1 WHERE id_ee = $2";
   await connection.query(query, [url_dados, id]);
 }
+async function insertURLPainelDados(id, url_dados) {
+  const queryInsertURLDados =
+    "INSERT INTO painel_dados(id_ee, url_dados) VALUES ($1, $2)";
+  await connection.query(queryInsertURLDados, [id, url_dados]);
+}
 
+async function locateURLPainelDados(id) {
+  const query = "SELECT * FROM painel_dados WHERE id_ee = $1";
+  const result = await connection.query(query, [id]);
+  return result.rows;
+}
 async function manageUsuarioPDG(id, id_usuario_pdg) {
   const queryFindUserPDG = "SELECT * FROM usuarios_pdg WHERE id_ee = $1";
   await connection.query(queryFindUserPDG, [id]);
@@ -76,7 +86,14 @@ async function EditarEntidadeEscolar(req, res) {
 
   try {
     const { rowCount, entidade } = await updateEntidade(req.body);
-    await updatePainelDados(id, url_dados);
+    const locateURL = await locateURLPainelDados(id);
+
+    if (locateURL && locateURL.length > 0) {
+      await updatePainelDados(id, url_dados);
+    } else {
+      await insertURLPainelDados(id, url_dados);
+    }
+
     await manageUsuarioPDG(id, id_usuario_pdg);
 
     if (rowCount === 0) {

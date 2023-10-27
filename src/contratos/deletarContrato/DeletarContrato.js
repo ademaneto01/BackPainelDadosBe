@@ -20,11 +20,12 @@ async function DeletarContrato(req, res) {
 
 async function deleteRelatedEntities(uuid_ec) {
   const entidadeEscolar = await fetchEntidadesEscolares(uuid_ec);
-
+  console.log(entidadeEscolar, "aqui entidades escolar");
   if (entidadeEscolar) {
     await setEntidadesEscolaresStatus(uuid_ec);
-    await deleteUserPdgRelations(entidadeEscolar.id);
-    await deletePainelDadosRelations(entidadeEscolar.id);
+    await deleteVinculosAgenteExterno(entidadeEscolar);
+    await deleteUserPdgRelations(entidadeEscolar);
+    await deletePainelDadosRelations(entidadeEscolar);
   }
 }
 
@@ -32,7 +33,7 @@ async function fetchEntidadesEscolares(uuid_ec) {
   const query = "SELECT * FROM entidades_escolares WHERE uuid_ec = $1";
   const { rows } = await connection.query(query, [uuid_ec]);
 
-  return rows[0] || null;
+  return rows || null;
 }
 
 async function setEntidadesEscolaresStatus(uuid_ec) {
@@ -41,14 +42,25 @@ async function setEntidadesEscolaresStatus(uuid_ec) {
   await connection.query(query, [DELETED_STATUS, INACTIVE_STATUS, uuid_ec]);
 }
 
-async function deleteUserPdgRelations(id_ee) {
+async function deleteUserPdgRelations(entidadeEscolar) {
   const query = "DELETE FROM usuarios_pdg WHERE id_ee = $1";
-  await connection.query(query, [id_ee]);
+  for (const entidade of entidadeEscolar) {
+    await connection.query(query, [entidade.id]);
+  }
 }
 
-async function deletePainelDadosRelations(id_ee) {
+async function deleteVinculosAgenteExterno(entidadeEscolar) {
+  const query = "DELETE FROM vinculos_agentes_externos WHERE id_escola = $1";
+  for (const entidade of entidadeEscolar) {
+    await connection.query(query, [entidade.id]);
+  }
+}
+
+async function deletePainelDadosRelations(entidadeEscolar) {
   const query = "DELETE FROM painel_dados WHERE id_ee = $1";
-  await connection.query(query, [id_ee]);
+  for (const entidade of entidadeEscolar) {
+    await connection.query(query, [entidade.id]);
+  }
 }
 
 async function updateEntidadesContratuaisStatus(uuid_ec) {

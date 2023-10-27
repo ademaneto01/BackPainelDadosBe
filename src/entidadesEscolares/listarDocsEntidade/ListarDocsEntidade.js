@@ -7,7 +7,7 @@ async function ListarDocsEntidade(req, res) {
     const docsEntidadetData = await fetchDocstByIdEntidade(uuid_ee);
 
     if (!docsEntidadetData) {
-      return sendErrorResponse(res, 404, "Docs não encontrado.");
+      return sendErrorResponse(res, 404, "Ainda não existe Docs cadastrado...");
     }
 
     return res.status(200).json(docsEntidadetData);
