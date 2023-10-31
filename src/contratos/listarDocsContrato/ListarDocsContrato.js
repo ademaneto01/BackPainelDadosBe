@@ -1,10 +1,10 @@
 const connection = require("../../connection");
 
 async function ListarDocsContrato(req, res) {
-  const { uuid_ec } = req.body;
+  const { id } = req.query;
 
   try {
-    const contractData = await fetchDocstByIdContrato(uuid_ec);
+    const contractData = await fetchDocstByIdContrato(id);
 
     if (!contractData) {
       return sendErrorResponse(res, 400, "Ainda não existe Docs cadastrado...");
@@ -16,9 +16,9 @@ async function ListarDocsContrato(req, res) {
   }
 }
 
-async function fetchDocstByIdContrato(uuid_ec) {
+async function fetchDocstByIdContrato(id) {
   const query = "SELECT * FROM docs_contrato WHERE uuid_ec = $1";
-  const { rows } = await connection.query(query, [uuid_ec]);
+  const { rows } = await connection.query(query, [id]);
 
   return rows.length ? rows : null;
 }

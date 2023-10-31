@@ -1,10 +1,10 @@
 const connection = require("../../connection");
 
 async function LocalizarUsuario(req, res) {
-  const { userId } = req.body;
+  const { id } = req.query;
 
   try {
-    const userData = await getUserById(userId);
+    const userData = await getUserById(id);
 
     if (!userData) {
       return sendErrorResponse(res, 404, "Usuário não encontrado.");
@@ -24,9 +24,9 @@ async function LocalizarUsuario(req, res) {
   }
 }
 
-async function getUserById(userId) {
+async function getUserById(id) {
   const query = "SELECT * FROM usuarios WHERE id = $1";
-  const { rows } = await connection.query(query, [userId]);
+  const { rows } = await connection.query(query, [id]);
   const user = rows[0];
   if (user) {
     delete user.senha;

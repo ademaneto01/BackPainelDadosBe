@@ -1,10 +1,10 @@
 const connection = require("../../connection");
 
 async function ListarDocsEntidade(req, res) {
-  const { uuid_ee } = req.body;
+  const { id } = req.query;
 
   try {
-    const docsEntidadetData = await fetchDocstByIdEntidade(uuid_ee);
+    const docsEntidadetData = await fetchDocstByIdEntidade(id);
 
     if (!docsEntidadetData) {
       return sendErrorResponse(res, 404, "Ainda não existe Docs cadastrado...");

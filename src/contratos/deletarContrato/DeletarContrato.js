@@ -10,9 +10,9 @@ async function DeletarContrato(req, res) {
     await deleteRelatedEntities(uuid_ec);
     await updateEntidadesContratuaisStatus(uuid_ec);
 
-    const contratos = await fetchUpdatedContract(uuid_ec);
-
-    return res.status(200).json(contratos);
+    return res
+      .status(204)
+      .json({ mensagem: "Contrato deletado com sucesso..." });
   } catch (error) {
     return res.status(400).json(error.message);
   }
@@ -20,8 +20,9 @@ async function DeletarContrato(req, res) {
 
 async function deleteRelatedEntities(uuid_ec) {
   const entidadeEscolar = await fetchEntidadesEscolares(uuid_ec);
-  console.log(entidadeEscolar, "aqui entidades escolar");
+
   if (entidadeEscolar) {
+    await deleteUser(entidadeEscolar);
     await setEntidadesEscolaresStatus(uuid_ec);
     await deleteVinculosAgenteExterno(entidadeEscolar);
     await deleteUserPdgRelations(entidadeEscolar);
@@ -34,6 +35,13 @@ async function fetchEntidadesEscolares(uuid_ec) {
   const { rows } = await connection.query(query, [uuid_ec]);
 
   return rows || null;
+}
+
+async function deleteUser(entidadeEscolar) {
+  const query = "DELETE FROM usuarios WHERE id_ee = $1";
+  for (const entidade of entidadeEscolar) {
+    await connection.query(query, [entidade.id]);
+  }
 }
 
 async function setEntidadesEscolaresStatus(uuid_ec) {
@@ -67,13 +75,6 @@ async function updateEntidadesContratuaisStatus(uuid_ec) {
   const query =
     "UPDATE entidades_contratuais SET deleted = $1, ativo = $2 WHERE id = $3";
   await connection.query(query, [DELETED_STATUS, INACTIVE_STATUS, uuid_ec]);
-}
-
-async function fetchUpdatedContract(uuid_ec) {
-  const query = "SELECT * FROM entidades_contratuais WHERE id = $1";
-  const { rows } = await connection.query(query, [uuid_ec]);
-
-  return rows || [];
 }
 
 module.exports = {

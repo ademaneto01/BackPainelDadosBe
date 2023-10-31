@@ -1,11 +1,11 @@
 const connection = require("../../connection");
 
 async function LocalizarUrlPainel(req, res) {
-  const { id_ee } = req.body;
+  const { id } = req.query;
 
   try {
     const query = "SELECT * FROM painel_dados WHERE id_ee = $1";
-    const { rows } = await connection.query(query, [id_ee]);
+    const { rows } = await connection.query(query, [id]);
 
     const url_dados = rows;
 

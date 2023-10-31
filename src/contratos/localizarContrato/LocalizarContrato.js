@@ -1,7 +1,7 @@
 const connection = require("../../connection");
 
 async function LocalizarContrato(req, res) {
-  const { id } = req.body;
+  const { id } = req.query;
 
   try {
     const contractData = await fetchContractById(id);

@@ -1,6 +1,6 @@
 const connection = require("../../connection");
 
-async function fetchEntidadesEscolaresByUserId(userId) {
+async function fetchEntidadesEscolaresByUserId(id) {
   const query = `
     SELECT entidades_escolares.* 
     FROM entidades_escolares
@@ -8,19 +8,19 @@ async function fetchEntidadesEscolaresByUserId(userId) {
     WHERE usuarios_pdg.id_usuario = $1 AND entidades_escolares.deleted = $2
   `;
   const deleted = false;
-  const { rows } = await connection.query(query, [userId, deleted]);
+  const { rows } = await connection.query(query, [id, deleted]);
   return rows;
 }
 
 async function LocalizarEntidadesEscolaresUsuariosPDG(req, res) {
-  const { userId } = req.body;
+  const { id } = req.query;
 
-  if (!userId) {
+  if (!id) {
     return res.status(400).json({ mensagem: "ID do usuário não fornecido." });
   }
 
   try {
-    const entidadesEscolares = await fetchEntidadesEscolaresByUserId(userId);
+    const entidadesEscolares = await fetchEntidadesEscolaresByUserId(id);
     return res.status(200).json(entidadesEscolares);
   } catch (error) {
     return res

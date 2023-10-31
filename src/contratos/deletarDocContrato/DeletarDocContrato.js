@@ -11,7 +11,9 @@ async function DeletarDocContrato(req, res) {
 
     await deleteDoc(id);
 
-    return res.status(200).json([doc]);
+    return res
+      .status(204)
+      .json({ mensagem: "Doc Contrato deletado com sucesso..." });
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }

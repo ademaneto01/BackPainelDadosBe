@@ -1,7 +1,7 @@
 const connection = require("../../connection");
 
 async function LocalizarAgenteId(req, res) {
-  const { id } = req.body;
+  const { id } = req.query;
   try {
     const agentesData = await fetchAgenteById(id);
     return res.status(200).json(agentesData);

@@ -23,6 +23,11 @@ async function removePainelDados(id) {
   await connection.query(query, [id]);
 }
 
+async function deleteUser(id) {
+  const query = "DELETE FROM usuarios WHERE id_ee = $1";
+  await connection.query(query, [id]);
+}
+
 async function updateQtdEscolas(uuid_ec) {
   const ACTIVE_STATUS = true;
   const query =
@@ -43,8 +48,11 @@ async function DeletarEntidadeEscolar(req, res) {
     await removeUsuarioPdg(id);
     await removePainelDados(id);
     await updateQtdEscolas(updatedEntidade.uuid_ec);
+    await deleteUser(id);
 
-    return res.status(200).json([updatedEntidade]);
+    return res
+      .status(204)
+      .json({ mensagem: "Entidade deletada com sucesso..." });
   } catch (error) {
     return res
       .status(400)

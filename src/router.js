@@ -14,8 +14,8 @@ router.post(
 router.post("/login", usuario.LoginMiddleware.Login);
 
 // router.use(validateToken);
-router.post("/editarUsuario", usuario.EditarUsuarioMiddleware.EditarUsuario);
-router.post(
+router.put("/editarUsuario", usuario.EditarUsuarioMiddleware.EditarUsuario);
+router.get(
   "/localizarUsuario",
   usuario.LocalizarUsuarioMiddleware.LocalizarUsuario
 );
@@ -28,7 +28,10 @@ router.get(
   "/localizarUsuariosPDG",
   usuario.LocalizarUsuariosPDGMiddleware.LocalizarUsuariosPDG
 );
-router.post("/deletarUsuario", usuario.DeletarUsuarioMiddleware.DeletarUsuario);
+router.delete(
+  "/deletarUsuario",
+  usuario.DeletarUsuarioMiddleware.DeletarUsuario
+);
 
 //////////////////////// contratos ////////////////////////////////////////
 
@@ -41,11 +44,11 @@ router.post(
   "/registrarDocContrato",
   contratos.RegistrarDocMiddleware.RegistrarDoc
 );
-router.post(
+router.get(
   "/listarDocsContrato",
   contratos.ListarDocsContratoMiddleware.ListarDocsContrato
 );
-router.post(
+router.put(
   "/editarEntidadeContratual",
   contratos.EditarEntidadeContratualMiddleware.EditarEntidadeContratual
 );
@@ -55,24 +58,24 @@ router.get(
   contratos.LocalizarContratosMiddleware.LocalizarContratos
 );
 
-router.post(
+router.get(
   "/localizarContrato",
   contratos.LocalizarContratoMiddleware.LocalizarContrato
 );
 
-router.post(
+router.delete(
   "/deletarContrato",
   contratos.DeletarContratoMiddleware.DeletarContrato
 );
-router.post(
+router.delete(
   "/deletarDocContrato",
   contratos.DeletarDocContratoMiddleware.DeletarDocContrato
 );
-router.post(
+router.put(
   "/sobrescreverContrato",
   contratos.SobreEscreverContratoMiddleware.SobreEscreverContrato
 );
-router.post(
+router.get(
   "/listarInfosContrato",
   contratos.ListarInfosContratoMiddleware.ListarInfosContrato
 );
@@ -81,11 +84,11 @@ router.post(
   "/registrarInfosContrato",
   contratos.RegistrarInfosContratoMiddleware.RegistrarInfosContrato
 );
-router.post(
+router.delete(
   "/deletarInfosContrato",
   contratos.DeletarInfosContratoMiddleware.DeletarInfosContrato
 );
-router.post(
+router.put(
   "/editarInfosContrato",
   contratos.EditarInfosContratoMiddleware.EditarInfosContrato
 );
@@ -96,18 +99,18 @@ router.post(
   entidadesEscolares.RegistrarEntidadeEscolarMiddleware.RegistrarEntidadeEscolar
 );
 
-router.post(
+router.put(
   "/editarEntidadeEscolar",
   entidadesEscolares.EditarEntidadeEscolarMiddleware.EditarEntidadeEscolar
 );
 
-router.post(
+router.get(
   "/localizarEntidadesEscolares",
   entidadesEscolares.LocalizarEntidadesEscolaresMiddleware
     .LocalizarEntidadesEscolares
 );
 
-router.post(
+router.get(
   "/localizarEntidadeEscolar",
   entidadesEscolares.LocalizarEntidadeEscolarMiddleware.LocalizarEntidadeEscolar
 );
@@ -117,23 +120,23 @@ router.get(
   entidadesEscolares.TodasEntidadesEscolaresMiddleware.TodasEntidadesEscolares
 );
 
-router.post(
+router.get(
   "/localizarEntidadesEscolaresUsuariosPDG",
   entidadesEscolares.LocalizarEntidadesEscolaresUsuariosPDGMiddleware
     .LocalizarEntidadesEscolaresUsuariosPDG
 );
 
-router.post(
+router.delete(
   "/deletarEntidadeEscolar",
   entidadesEscolares.DeletarEntidadeEscolarMiddleware.DeletarEntidadeEscolar
 );
 
-router.post(
+router.get(
   "/localizarUrlPainel",
   entidadesEscolares.LocalizarUrlPainelMiddleware.LocalizarUrlPainel
 );
 
-router.post(
+router.get(
   "/listarDocsEntidade",
   entidadesEscolares.listarDocsEntidadeMiddleware.ListarDocsEntidade
 );
@@ -142,7 +145,7 @@ router.post(
   entidadesEscolares.RegistrarDocEntidadeMiddleware.RegistrarDocEntidade
 );
 
-router.post(
+router.delete(
   "/deletarDocEntidade",
   entidadesEscolares.DeletarDocEntidadeMiddleware.DeletarDocEntidade
 );
@@ -160,32 +163,32 @@ router.get(
   "/listarTodosAgentes",
   agentesExternos.ListarTodosAgentesMiddleware.ListarTodosAgentes
 );
-router.post(
+router.get(
   "/ListarAgentesRelacionadoEscola",
   agentesExternos.ListarAgentesRelacionadoEscolaMiddleware
     .ListarAgentesRelacionadoEscola
 );
-router.post(
+router.put(
   "/editarAgente",
   agentesExternos.EditarAgenteMiddleware.EditarAgente
 );
-router.post(
+router.delete(
   "/deletarAgente",
   agentesExternos.DeletarAgenteMiddleware.DeletarAgente
 );
-router.post(
+router.get(
   "/localizarAgenteId",
   agentesExternos.LocalizarAgenteIdMiddleware.LocalizarAgenteId
 );
-router.post(
+router.get(
   "/listarVinculoAgente",
   agentesExternos.ListarVinculoAgenteMiddleware.ListarVinculoAgente
 );
-router.post(
+router.delete(
   "/deletarVinculoAgente",
   agentesExternos.DeletarVinculoAgenteMiddleware.DeletarVinculoAgente
 );
-router.post(
+router.put(
   "/editarVinculoAgente",
   agentesExternos.EditarVinculoAgenteMiddleware.EditarVinculoAgente
 );

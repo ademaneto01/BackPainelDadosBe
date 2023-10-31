@@ -1,16 +1,16 @@
 const connection = require("../../connection");
 
 async function ListarAgentesRelacionadoEscola(req, res) {
-  const { id_ee } = req.body;
+  const { id } = req.query;
   try {
-    const agentesData = await fetchAgentes(id_ee);
+    const agentesData = await fetchAgentes(id);
     return res.status(200).json(agentesData);
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }
 }
 
-async function fetchAgentes(id_ee) {
+async function fetchAgentes(id) {
   const query = `
     SELECT agentes.*
     FROM agentes_externos agentes
@@ -19,7 +19,7 @@ async function fetchAgentes(id_ee) {
     WHERE vinculos.id_escola = $1
   `;
 
-  const { rows } = await connection.query(query, [id_ee]);
+  const { rows } = await connection.query(query, [id]);
   return rows;
 }
 

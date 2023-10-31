@@ -1,7 +1,7 @@
 const connection = require("../../connection");
 
 async function DeletarUsuario(req, res) {
-  const { userId } = req.body;
+  const { userId } = req.query;
 
   try {
     user = await getUserById(userId);
@@ -16,7 +16,9 @@ async function DeletarUsuario(req, res) {
 
     delete user.senha;
 
-    return res.status(200).json([user]);
+    return res
+      .status(204)
+      .json({ mensagem: "Usuário deletado com sucesso..." });
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }
