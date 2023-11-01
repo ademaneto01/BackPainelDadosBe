@@ -20,7 +20,7 @@ async function fetchUrlDadosById(id) {
 
 async function LocalizarEntidadeEscolar(req, res) {
   const { id } = req.query;
-  console.log(id, "entidade");
+
   try {
     const entidade = await fetchEntidadeEscolarById(id);
     const usuarioPDG = await fetchUsuariosPDGById(id);

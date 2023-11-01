@@ -1,7 +1,7 @@
 const connection = require("../../connection");
 
 async function DeletarUsuario(req, res) {
-  const { userId } = req.query;
+  const { userId } = req.body;
 
   try {
     user = await getUserById(userId);
