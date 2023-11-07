@@ -4,16 +4,13 @@ const usuario = require("./controlersUsers/index");
 const contratos = require("./contratos/index");
 const entidadesEscolares = require("./entidadesEscolares/index");
 const agentesExternos = require("./agenteEscolares/index");
-// const validateToken = require("./middlewear/token");
+const validateToken = require("./middlewear/token");
 
 const router = Router();
-router.post(
-  "/registrarUsuario",
-  usuario.RegistrarUsuarioMiddleware.RegistrarUsuario
-);
+
 router.post("/login", usuario.LoginMiddleware.Login);
 
-// router.use(validateToken);
+router.use(validateToken);
 router.put("/editarUsuario", usuario.EditarUsuarioMiddleware.EditarUsuario);
 router.get(
   "/localizarUsuario",
@@ -22,6 +19,10 @@ router.get(
 router.get(
   "/localizarUsuarios",
   usuario.LocalizarUsuariosMiddleware.LocalizarUsuarios
+);
+router.post(
+  "/registrarUsuario",
+  usuario.RegistrarUsuarioMiddleware.RegistrarUsuario
 );
 
 router.get(
