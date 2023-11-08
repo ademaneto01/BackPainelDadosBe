@@ -181,7 +181,7 @@ router.get(
   "/localizarAgenteId",
   agentesExternos.LocalizarAgenteIdMiddleware.LocalizarAgenteId
 );
-router.get(
+router.post(
   "/listarVinculoAgente",
   agentesExternos.ListarVinculoAgenteMiddleware.ListarVinculoAgente
 );

@@ -1,1 +1,3 @@
-module.exports = "painelDadosBeJWT";
+require("dotenv").config();
+
+module.exports = process.env.JWTSECRET;
