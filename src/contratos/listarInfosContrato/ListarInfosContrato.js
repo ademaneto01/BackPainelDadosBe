@@ -7,7 +7,7 @@ async function ListarInfosContrato(req, res) {
     const contractData = await fetchContractById(id);
 
     if (!contractData) {
-      return sendErrorResponse(res, 400, "Contrato não encontrado.");
+      return sendErrorResponse(res, 400, "Infos. contrato não encontrado.");
     }
 
     return res.status(200).json([contractData]);

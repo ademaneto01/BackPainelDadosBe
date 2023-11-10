@@ -66,9 +66,9 @@ drop table if exists infos_contrato;
 create table infos_contrato (
 	id UUID default uuid_generate_v4() primary key,
 	uuid_ec UUID references entidades_contratuais(id),
-	ano_assinatura int,
-	ano_operacao int,
-	ano_termino int,
+	ano_assinatura varchar(10),
+	ano_operacao varchar(10),
+	ano_termino varchar(10),
 	ativo boolean default true,
 	resp_frete varchar(100),
 	pedido_min int,
