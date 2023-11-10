@@ -32,7 +32,6 @@ function validateRequiredFields(fields) {
     "ano_assinatura",
     "ano_operacao",
     "ano_termino",
-    "ativo",
     "resp_frete",
     "pedido_min",
   ];
