@@ -27,14 +27,23 @@ async function EditarAgente(req, res) {
 }
 
 function validateRequiredFields(fields) {
-  const requiredFields = ["id", "nome", "cargo", "email_primario", "ativo"];
+  const requiredFields = ["id", "nome", "cargo", "email_primario"];
 
   return requiredFields.every((field) => fields[field]);
 }
 
 async function updateAgente(fields) {
-  const { id, nome, telefone, cargo, email_primario, email_secundario, data_nascimento, interlocutor, ativo } =
-    fields;
+  const {
+    id,
+    nome,
+    telefone,
+    cargo,
+    email_primario,
+    email_secundario,
+    data_nascimento,
+    interlocutor,
+    ativo,
+  } = fields;
 
   const updateDados =
     "UPDATE agentes_externos SET nome = $1, nu_telefone = $2, no_email_primario = $3, no_email_secundario = $4, cargo = $5, data_nascimento = $6, interlocutor = $7, bo_ativo = $8  WHERE uuid_agente = $9 RETURNING *";

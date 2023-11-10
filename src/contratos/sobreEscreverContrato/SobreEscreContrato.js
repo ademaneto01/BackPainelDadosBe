@@ -53,7 +53,6 @@ function isValidData(data) {
     "uf",
     "bairro",
     "complemento",
-    "bo_rede",
   ];
 
   return requiredFields.every((field) => data[field]);

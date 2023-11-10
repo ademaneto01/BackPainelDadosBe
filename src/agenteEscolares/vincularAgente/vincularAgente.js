@@ -23,7 +23,7 @@ async function VincularAgente(req, res) {
 }
 
 function validateRequiredFields(fields) {
-  const requiredFields = ["id_prof", "id_escola", "especialista"];
+  const requiredFields = ["id_prof", "id_escola"];
 
   return requiredFields.every((field) => fields[field]);
 }
