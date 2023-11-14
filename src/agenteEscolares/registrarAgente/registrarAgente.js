@@ -33,11 +33,21 @@ function validateRequiredFields(fields) {
 }
 
 async function insertUserAgente(fields) {
-  const { nome, cargo, telefone, email_primario, email_secundario, data_nascimento, interlocutor, ativo } =
-    fields;
+  const {
+    nome,
+    cargo,
+    telefone,
+    email_primario,
+    email_secundario,
+    data_nascimento,
+    instagram,
+    linkedin,
+    interlocutor,
+    ativo,
+  } = fields;
 
   const query =
-    "INSERT INTO agentes_externos (nome, cargo, nu_telefone, no_email_primario, no_email_secundario, data_nascimento, interlocutor, bo_ativo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+    "INSERT INTO agentes_externos (nome, cargo, nu_telefone, no_email_primario, no_email_secundario, data_nascimento, instagram, linkedin, interlocutor, bo_ativo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
 
   const {
     rows: [registeredAgente],
@@ -48,6 +58,8 @@ async function insertUserAgente(fields) {
     email_primario,
     email_secundario,
     data_nascimento,
+    instagram,
+    linkedin,
     interlocutor,
     ativo,
   ]);

@@ -24,7 +24,6 @@ drop table if exists entidades_escolares;
 create table entidades_escolares (
     id UUID default uuid_generate_v4() primary key,
     uuid_ec UUID references entidades_contratuais(id),
-    id_ec int,
     nome_operacional varchar(100),
     cnpj_escola varchar(18),
     cep varchar(10),
@@ -33,6 +32,7 @@ create table entidades_escolares (
     uf varchar(2),
     bairro varchar(100),
     complemento varchar(200),
+    instagram varchar(50),
     ativo boolean default true,
     deleted boolean default false
 );
@@ -99,6 +99,8 @@ create table agentes_externos(
     nome varchar(100),
     cargo varchar(50),
     data_nascimento varchar(10),
+    instagram varchar(50),
+    linkedin varchar(50),
     interlocutor boolean default false,
     nu_telefone varchar(50),
     bo_ativo boolean default true,
