@@ -3,7 +3,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 drop table if exists entidades_contratuais;
 create table entidades_contratuais (
     id UUID default uuid_generate_v4() primary key,
-    id_ec int,
     nome_simplificado varchar(100),
     razao_social varchar(100),
     cnpj_cont varchar(18),
@@ -33,6 +32,7 @@ create table entidades_escolares (
     bairro varchar(100),
     complemento varchar(200),
     instagram varchar(50),
+    facebook varchar(50),
     ativo boolean default true,
     deleted boolean default false
 );
