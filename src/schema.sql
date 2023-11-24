@@ -130,4 +130,46 @@ create table vinculos_agentes_externos(
 );
 
 
+create table turmas_alunados(
+    id UUID default uuid_generate_v4() primary key,
+	id_ee UUID references entidades_escolares(id),
+    ano_ref varchar(10),
+    "3EI" int,
+    "4EI" int,
+    "5EI" int,
+    "1EF" int,
+    "2EF" int,
+    "3EF" int,
+    "4EF" int,
+    "5EF" int,
+    "6EF" int,
+    "7EF" int,
+    "8EF" int,
+    "9EF" int,
+    "1EM" int,
+    "2EM" int,
+    "3EM" int
+);
+
+create table alunados(
+    id UUID default uuid_generate_v4() primary key,
+	id_ee UUID references entidades_escolares(id),
+    ano_ref varchar(10),
+    "3EI" int,
+    "4EI" int,
+    "5EI" int,
+    "1EF" int,
+    "2EF" int,
+    "3EF" int,
+    "4EF" int,
+    "5EF" int,
+    "6EF" int,
+    "7EF" int,
+    "8EF" int,
+    "9EF" int,
+    "1EM" int,
+    "2EM" int,
+    "3EM" int
+);
+
 

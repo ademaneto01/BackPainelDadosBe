@@ -4,6 +4,7 @@ const usuario = require("./controlersUsers/index");
 const contratos = require("./contratos/index");
 const entidadesEscolares = require("./entidadesEscolares/index");
 const agentesExternos = require("./agenteEscolares/index");
+const alunados = require("./alunados/index");
 const validateToken = require("./middlewear/token");
 
 const router = Router();
@@ -193,4 +194,33 @@ router.put(
   "/editarVinculoAgente",
   agentesExternos.EditarVinculoAgenteMiddleware.EditarVinculoAgente
 );
+
+///////////////////////////////ALUNADOS/////////////////
+
+router.post(
+  "/registrarAlunados",
+  alunados.RegistrarAlunadosMiddleware.RegistrarAlunados
+);
+
+router.put("/editarAlunados", alunados.EditarAlunadosMiddleware.EditarAlunados);
+
+router.get("/listarTurmas", alunados.ListarTurmasMiddleware.ListarTurmas);
+
+router.get("/listarAlunados", alunados.ListarAlunadosMiddleware.ListarAlunados);
+
+router.get(
+  "/listarIndividualAlunados",
+  alunados.ListarIndividualAlunadosMiddleware.ListarIndividualAlunados
+);
+
+router.get(
+  "/listarIndividualTurmas",
+  alunados.ListarIndividualTurmasMiddleware.ListarIndividualTurmas
+);
+
+router.delete(
+  "/deletarAlunado",
+  alunados.DeletarAlunadosMiddleware.DeletarAlunados
+);
+
 module.exports = router;
