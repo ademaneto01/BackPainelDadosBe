@@ -204,10 +204,6 @@ router.post(
 
 router.put("/editarAlunados", alunados.EditarAlunadosMiddleware.EditarAlunados);
 
-router.get("/listarTurmas", alunados.ListarTurmasMiddleware.ListarTurmas);
-
-router.get("/listarAlunados", alunados.ListarAlunadosMiddleware.ListarAlunados);
-
 router.get(
   "/listarIndividualAlunados",
   alunados.ListarIndividualAlunadosMiddleware.ListarIndividualAlunados

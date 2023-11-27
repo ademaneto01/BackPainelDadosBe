@@ -2,7 +2,7 @@ const connection = require("../../connection");
 
 async function EditarAlunados(req, res) {
   const data = req.body;
-  console.log(data);
+
   try {
     const registredAlunado = await editAlunados(data);
 
