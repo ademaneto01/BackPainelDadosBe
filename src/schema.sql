@@ -172,4 +172,30 @@ create table alunados(
     "3EM" int
 );
 
+create table acompanhamento_pdg(
+  id UUID default uuid_generate_v4() primary key,
+  id_ee UUID references entidades_escolares(id),
+  id_prof UUID references agentes_externos(uuid_agente),
+  id_user UUID references usuarios(id),
+  dataofobservation varchar(10),
+  grade varchar(5),
+  ofstudents text,
+  tema varchar(20),
+  lessonplanbe text,
+  cycle varchar(20),
+  digitalprojector varchar(20),
+  board varchar(20),
+  englishcorner varchar(20),
+  noiselevel varchar(20),
+  resourceaudioqlty varchar(20),
+  nglbematerials varchar(20),
+  lp1lessonplan varchar(20),
+  lp2proposedgoals varchar(20),
+  lp3resourcesused varchar(20),
+  lp4changes varchar(20),
+  finalcoments text,
+  finalized boolean,
+  finalizedtimestamp timestamp,
+  criado_em timestamp default current_timestamp
+);
 

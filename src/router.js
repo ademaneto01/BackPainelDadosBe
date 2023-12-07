@@ -5,6 +5,7 @@ const contratos = require("./contratos/index");
 const entidadesEscolares = require("./entidadesEscolares/index");
 const agentesExternos = require("./agenteEscolares/index");
 const alunados = require("./alunados/index");
+const acompanhamentoPDG = require("./acompanhamentoPDG/index");
 const validateToken = require("./middlewear/token");
 
 const router = Router();
@@ -217,6 +218,19 @@ router.get(
 router.delete(
   "/deletarAlunado",
   alunados.DeletarAlunadosMiddleware.DeletarAlunados
+);
+
+//////////////// ACOMPANHAMENTO PDG /////////////////////////
+
+router.post(
+  "/registrarAcompanhamento",
+  acompanhamentoPDG.RegistrarAcompanhamentoMiddleware.RegistrarAcompanhamento
+);
+
+router.get(
+  "/localizarAcompanhamento",
+  acompanhamentoPDG.LocalizarAcompanhamentoUsuariosPDGMiddleware
+    .LocalizarAcompanhamentoUsuariosPDG
 );
 
 module.exports = router;
