@@ -1,5 +1,6 @@
 const connection = require("../../connection");
 
+const deleted_status = false;
 async function insertAcompanhamento(data) {
   const query = `
       INSERT INTO acompanhamento_pdg (
@@ -24,9 +25,11 @@ async function insertAcompanhamento(data) {
         lp4changes,
         finalcoments,
         finalized,
-        finalizedtimestamp
+        finalizedtimestamp,
+        nome_escola,
+        deleted
       ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) 
       RETURNING *`;
   const values = [
     data.nameSearch,
@@ -51,6 +54,8 @@ async function insertAcompanhamento(data) {
     data.finalcoments,
     data.finalized,
     data.finalizedtimestamp,
+    data.nome_escola,
+    deleted_status,
   ];
 
   const {

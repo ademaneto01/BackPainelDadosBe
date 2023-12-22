@@ -233,4 +233,14 @@ router.get(
     .LocalizarAcompanhamentoUsuariosPDG
 );
 
+router.delete(
+  "/deletarAcompanhamento",
+  acompanhamentoPDG.DeletarAcompanhamentoMiddleware.DeletarAcompanhamento
+);
+
+router.get(
+  "/localizarAcompanhamentoById",
+  acompanhamentoPDG.LocalizarAcompanhamentoByIdMIddleware
+    .LocalizarAcompanhamentoById
+);
 module.exports = router;

@@ -6,13 +6,13 @@ async function fetchAcompanhamentosByUserId(id) {
       SELECT a.*
       FROM acompanhamento_pdg a
       JOIN usuarios_pdg u ON a.id_ee = u.id_ee 
-      WHERE u.id_usuario = $1
+      WHERE u.id_usuario = $1 AND a.deleted = false
     )
     UNION
     (
       SELECT a.*
       FROM acompanhamento_pdg a
-      WHERE a.id_user = $1
+      WHERE a.id_user = $1 AND a.deleted = false
     );
   `;
 
@@ -31,9 +31,7 @@ async function LocalizarAcompanhamentoUsuariosPDG(req, res) {
     const entidadesEscolares = await fetchAcompanhamentosByUserId(id);
     return res.status(200).json(entidadesEscolares);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ mensagem: "Erro ao buscar entidades escolares." });
+    return res.status(500).json({ mensagem: error });
   }
 }
 
