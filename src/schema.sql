@@ -196,6 +196,33 @@ create table acompanhamento_pdg(
   finalcoments text,
   finalized boolean,
   finalizedtimestamp timestamp,
-  criado_em timestamp default current_timestamp
+  criado_em timestamp default current_timestamp,
+  deleted boolean default false
 );
 
+create table acompanhamento_pdg_criteria(
+  id UUID default uuid_generate_v4() primary key,
+  id_acmp UUID references acompanhamento_pdg(id),
+  e1 REAL,
+  e2 REAL,
+  e3 REAL,
+  e4 REAL,
+  e5 REAL,
+  e6 REAL,
+  m1 REAL,
+  m2 REAL,
+  m3 REAL,
+  m4 REAL,
+  m5 REAL,
+  m6 REAL,
+  l1 REAL,
+  l2 REAL,
+  l3 REAL,
+  l4 REAL,
+  l5 REAL,
+  l6 REAL,
+  finalized boolean,
+  finalizedtimestamp timestamp,
+  criado_em timestamp default current_timestamp,
+
+);

@@ -227,6 +227,22 @@ router.post(
   acompanhamentoPDG.RegistrarAcompanhamentoMiddleware.RegistrarAcompanhamento
 );
 
+router.put(
+  "/editarCriteria",
+  acompanhamentoPDG.EditarCriteriaMiddleware.EditarCriteria
+);
+
+router.put(
+  "/editarAcompanhamento",
+  acompanhamentoPDG.EditarAcompanhamentoMiddleware.EditarAcompanhamento
+);
+
+router.post(
+  "/registrarAcompanhamentoCriteria",
+  acompanhamentoPDG.RegistrarAcompanhamentoCriteriaMiddleware
+    .RegistrarAcompanhamentoCriteria
+);
+
 router.get(
   "/localizarAcompanhamento",
   acompanhamentoPDG.LocalizarAcompanhamentoUsuariosPDGMiddleware
@@ -240,7 +256,13 @@ router.delete(
 
 router.get(
   "/localizarAcompanhamentoById",
-  acompanhamentoPDG.LocalizarAcompanhamentoByIdMIddleware
+  acompanhamentoPDG.LocalizarAcompanhamentoByIdMiddleware
     .LocalizarAcompanhamentoById
+);
+
+router.get(
+  "/LocalizarCriteriaById",
+  acompanhamentoPDG.LocalizarAcompanhamentoCriteriaByIdMiddleware
+    .LocalizarAcompanhamentoCriteriaById
 );
 module.exports = router;

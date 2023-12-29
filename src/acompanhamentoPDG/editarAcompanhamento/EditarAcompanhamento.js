@@ -3,14 +3,6 @@ const connection = require("../../connection");
 async function EditarAcompanhamento(req, res) {
   const fields = req.body;
 
-  if (!validateRequiredFields(fields)) {
-    return sendErrorResponse(
-      res,
-      400,
-      "Todos os campos obrigatórios devem ser informados."
-    );
-  }
-
   try {
     const contractData = await updateAcompanhamento(fields);
     if (!contractData) {
@@ -20,60 +12,68 @@ async function EditarAcompanhamento(req, res) {
         "Não foi possível atualizar o usuário."
       );
     }
+
     return res.status(200).json([contractData]);
   } catch (error) {
     return sendErrorResponse(res, 400, error.message);
   }
 }
 
-function validateRequiredFields(fields) {
-  const requiredFields = [
-    "id",
-    "nome_simplificado",
-    "razao_social",
-    "cnpj_cont",
-    "cep",
-    "endereco",
-    "cidade",
-    "uf",
-    "bairro",
-    "complemento",
-  ];
-
-  return requiredFields.every((field) => fields[field]);
-}
-
 async function updateAcompanhamento(fields) {
   const {
     id,
-    nome_simplificado,
-    razao_social,
-    cnpj_cont,
-    cep,
-    endereco,
-    cidade,
-    uf,
-    bairro,
-    complemento,
-    ativo,
-    bo_rede,
+    nameSearch,
+    educatorsname,
+    userId,
+    dataofobservation,
+    grade,
+    ofstudents,
+    tema,
+    lessonplanbe,
+    cycle,
+    digitalprojector,
+    board,
+    englishcorner,
+    noiselevel,
+    resourceaudioqlty,
+    nglbematerials,
+    lp1lessonplan,
+    lp2proposedgoals,
+    lp3resourcesused,
+    lp4changes,
+    finalcoments,
+    finalized,
+    finalizedtimestamp,
+    nome_escola,
   } = fields;
 
   const updateDados =
-    "UPDATE entidades_contratuais SET nome_simplificado = $1, razao_social = $2, cnpj_cont = $3, cep = $4, endereco = $5, cidade = $6, uf = $7, bairro = $8, complemento = $9, ativo = $10, bo_rede = $11 WHERE id = $12 RETURNING *";
+    "UPDATE acompanhamento_pdg SET id_ee = $1, id_prof = $2, id_user = $3, dataofobservation = $4, grade = $5, ofstudents = $6, tema = $7, lessonplanbe = $8, cycle = $9, digitalprojector = $10, board = $11, englishcorner = $12, noiselevel = $13, resourceaudioqlty = $14, nglbematerials = $15, lp1lessonplan = $16, lp2proposedgoals = $17, lp3resourcesused = $18, lp4changes = $19, finalcoments = $20, finalized = $21, finalizedtimestamp = $22, nome_escola = $23 WHERE id = $24 RETURNING *";
 
   const { rows } = await connection.query(updateDados, [
-    nome_simplificado,
-    razao_social,
-    cnpj_cont,
-    cep,
-    endereco,
-    cidade,
-    uf,
-    bairro,
-    complemento,
-    ativo,
-    bo_rede,
+    nameSearch,
+    educatorsname,
+    userId,
+    dataofobservation,
+    grade,
+    ofstudents,
+    tema,
+    lessonplanbe,
+    cycle,
+    digitalprojector,
+    board,
+    englishcorner,
+    noiselevel,
+    resourceaudioqlty,
+    nglbematerials,
+    lp1lessonplan,
+    lp2proposedgoals,
+    lp3resourcesused,
+    lp4changes,
+    finalcoments,
+    finalized,
+    finalizedtimestamp,
+    nome_escola,
     id,
   ]);
 
