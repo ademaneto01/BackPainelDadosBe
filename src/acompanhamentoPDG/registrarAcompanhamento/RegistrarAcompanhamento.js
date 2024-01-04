@@ -1,7 +1,26 @@
 const connection = require("../../connection");
 
 const deleted_status = false;
-async function insertAcompanhamento(data) {
+
+async function RegistrarAcompanhamento(req, res) {
+  const fields = req.body;
+  if (!validateRequiredFields(fields)) {
+    return sendErrorResponse(
+      res,
+      400,
+      "Todos os campos obrigatórios devem ser informados."
+    );
+  }
+  try {
+    const registeredAcompanhamento = await insertAcompanhamento(fields);
+
+    return res.status(201).json([registeredAcompanhamento]);
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+}
+
+async function insertAcompanhamento(fields) {
   const query = `
       INSERT INTO acompanhamento_pdg (
         id_ee, 
@@ -32,29 +51,29 @@ async function insertAcompanhamento(data) {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) 
       RETURNING *`;
   const values = [
-    data.nameSearch,
-    data.educatorsname,
-    data.userId,
-    data.dataofobservation,
-    data.grade,
-    data.ofstudents,
-    data.tema,
-    data.lessonplanbe,
-    data.cycle,
-    data.digitalprojector,
-    data.board,
-    data.englishcorner,
-    data.noiselevel,
-    data.resourceaudioqlty,
-    data.nglbematerials,
-    data.lp1lessonplan,
-    data.lp2proposedgoals,
-    data.lp3resourcesused,
-    data.lp4changes,
-    data.finalcoments,
-    data.finalized,
-    data.finalizedtimestamp,
-    data.nome_escola,
+    fields.nameSearch,
+    fields.educatorsname,
+    fields.userId,
+    fields.dataofobservation,
+    fields.grade,
+    fields.ofstudents,
+    fields.tema,
+    fields.lessonplanbe,
+    fields.cycle,
+    fields.digitalprojector,
+    fields.board,
+    fields.englishcorner,
+    fields.noiselevel,
+    fields.resourceaudioqlty,
+    fields.nglbematerials,
+    fields.lp1lessonplan,
+    fields.lp2proposedgoals,
+    fields.lp3resourcesused,
+    fields.lp4changes,
+    fields.finalcoments,
+    fields.finalized,
+    fields.finalizedtimestamp,
+    fields.nome_escola,
     deleted_status,
   ];
 
@@ -64,14 +83,35 @@ async function insertAcompanhamento(data) {
   return registeredAcompanhamento;
 }
 
-async function RegistrarAcompanhamento(req, res) {
-  try {
-    const registeredAcompanhamento = await insertAcompanhamento(req.body);
+function validateRequiredFields(fields) {
+  const requiredFields = [
+    "nameSearch",
+    "educatorsname",
+    "userId",
+    "dataofobservation",
+    "grade",
+    "ofstudents",
+    "tema",
+    "lessonplanbe",
+    "cycle",
+    "digitalprojector",
+    "board",
+    "englishcorner",
+    "noiselevel",
+    "resourceaudioqlty",
+    "nglbematerials",
+    "lp1lessonplan",
+    "lp2proposedgoals",
+    "lp3resourcesused",
+    "lp4changes",
+    "finalcoments",
+  ];
 
-    return res.status(201).json([registeredAcompanhamento]);
-  } catch (error) {
-    return res.status(400).json(error.message);
-  }
+  return requiredFields.every((field) => fields[field]);
+}
+
+function sendErrorResponse(res, statusCode, message) {
+  return res.status(statusCode).json({ mensagem: message });
 }
 
 module.exports = {
