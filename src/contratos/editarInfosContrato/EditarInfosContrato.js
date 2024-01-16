@@ -33,7 +33,6 @@ function validateRequiredFields(fields) {
     "ano_operacao",
     "ano_termino",
     "resp_frete",
-    "pedido_min",
   ];
 
   return requiredFields.every((field) => fields[field]);
@@ -49,10 +48,16 @@ async function updateInfosContract(fields) {
     resp_frete,
     pedido_min,
     reajuste_igpm_ipca,
+    exclusividade,
+    tipoexclusividade,
+    incentivos,
+    qtdbolsas,
+    repasse,
+    comentario,
   } = fields;
 
   const updateDados =
-    "UPDATE infos_contrato SET ano_assinatura = $1, ano_operacao = $2, ano_termino = $3, ativo = $4, resp_frete = $5, pedido_min = $6, reajuste_igpm_ipca = $7  WHERE id = $8 RETURNING *";
+    "UPDATE infos_contrato SET ano_assinatura = $1, ano_operacao = $2, ano_termino = $3, ativo = $4, resp_frete = $5, pedido_min = $6, reajuste_igpm_ipca = $7, exclusividade = $8, tipoexclusividade = $9, incentivos = $10, qtdbolsas = $11, repasse = $12, comentario = $13  WHERE id = $14 RETURNING *";
 
   const { rows } = await connection.query(updateDados, [
     ano_assinatura,
@@ -62,6 +67,12 @@ async function updateInfosContract(fields) {
     resp_frete,
     pedido_min,
     reajuste_igpm_ipca,
+    exclusividade,
+    tipoexclusividade,
+    incentivos,
+    qtdbolsas,
+    repasse,
+    comentario,
     id,
   ]);
 

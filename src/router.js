@@ -14,6 +14,10 @@ router.post("/login", usuario.LoginMiddleware.Login);
 
 router.use(validateToken);
 router.put("/editarUsuario", usuario.EditarUsuarioMiddleware.EditarUsuario);
+router.put(
+  "/editarUsuarioAtivo",
+  usuario.EditarUsuarioAtivoMiddleware.EditarUsuarioAtivo
+);
 router.get(
   "/localizarUsuario",
   usuario.LocalizarUsuarioMiddleware.LocalizarUsuario

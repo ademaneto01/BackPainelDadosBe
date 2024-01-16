@@ -33,7 +33,7 @@ function validateRequiredFields(fields) {
     "ano_operacao",
     "ano_termino",
     "resp_frete",
-    "pedido_min",
+    "reajuste_igpm_ipca",
   ];
 
   return requiredFields.every((field) => fields[field]);
@@ -49,10 +49,16 @@ async function insertInfosContract(fields) {
     resp_frete,
     pedido_min,
     reajuste_igpm_ipca,
+    exclusividade,
+    tipoexclusividade,
+    incentivos,
+    qtdbolsas,
+    repasse,
+    comentario,
   } = fields;
 
   const query =
-    "INSERT INTO infos_contrato (  uuid_ec, ano_assinatura, ano_operacao, ano_termino, ativo, resp_frete, pedido_min, reajuste_igpm_ipca) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+    "INSERT INTO infos_contrato (  uuid_ec, ano_assinatura, ano_operacao, ano_termino, ativo, resp_frete, pedido_min, reajuste_igpm_ipca, exclusividade, tipoexclusividade, incentivos, qtdbolsas, repasse, comentario ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *";
 
   const {
     rows: [registeredContract],
@@ -65,6 +71,12 @@ async function insertInfosContract(fields) {
     resp_frete,
     pedido_min,
     reajuste_igpm_ipca,
+    exclusividade,
+    tipoexclusividade,
+    incentivos,
+    qtdbolsas,
+    repasse,
+    comentario,
   ]);
 
   return registeredContract;

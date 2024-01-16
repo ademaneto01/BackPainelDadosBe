@@ -33,6 +33,7 @@ create table entidades_escolares (
     complemento varchar(200),
     instagram varchar(50),
     facebook varchar(50),
+    linkwhats varchar(100),
     ativo boolean default true,
     deleted boolean default false
 );
@@ -44,7 +45,8 @@ create table usuarios (
     email VARCHAR(100) not null unique,
     senha VARCHAR(100) not null,
 	id_ee UUID references entidades_escolares(id),
-    perfil VARCHAR(100) not null
+    perfil VARCHAR(100) not null,
+    ativo boolean default true
 );
 
 drop table if exists usuarios_pdg;
@@ -71,8 +73,14 @@ create table infos_contrato (
 	ano_termino varchar(10),
 	ativo boolean default true,
 	resp_frete varchar(100),
-	pedido_min int,
-	reajuste_igpm_ipca boolean
+	pedido_min int DEFAULT 0,
+	reajuste_igpm_ipca varchar(10),
+    exclusividade boolean,
+    tipoexclusividade varchar(10),
+    incentivos varchar[],
+    qtdbolsas int,
+    repasse varchar(10),
+    comentario text
 );
 
 drop table if exists docs_contrato;
@@ -106,6 +114,7 @@ create table agentes_externos(
     bo_ativo boolean default true,
     no_email_primario varchar(100),
     no_email_secundario varchar(100),
+    ativo boolean default true,
     criado_em timestamp default current_timestamp
  );
 
@@ -126,7 +135,11 @@ create table vinculos_agentes_externos(
     bo_6Af boolean default false,
     bo_7AF boolean default false,
     bo_8AF boolean default false,
-    bo_9AF boolean default false
+    bo_9AF boolean default false,
+    bo_1EM boolean default false,
+    bo_2EM boolean default false,
+    bo_3EM boolean default false
+
 );
 
 

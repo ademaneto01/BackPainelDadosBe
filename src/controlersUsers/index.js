@@ -5,6 +5,7 @@ const LocalizarUsuarioMiddleware = require("./localizarUsuario/LocalizarUsuario"
 const LocalizarUsuariosMiddleware = require("./localizarUsuarios/LocalizarUsuarios");
 const LocalizarUsuariosPDGMiddleware = require("./localizarUsuariosPDG/LocalizarUsuariosPDG");
 const DeletarUsuarioMiddleware = require("./deletarUsuario/DeletarUsuario");
+const EditarUsuarioAtivoMiddleware = require("./editarUsuarioAtivo/EditarUsuarioAtivo");
 module.exports = {
   LoginMiddleware,
   RegistrarUsuarioMiddleware,
@@ -13,4 +14,5 @@ module.exports = {
   LocalizarUsuariosMiddleware,
   LocalizarUsuariosPDGMiddleware,
   DeletarUsuarioMiddleware,
+  EditarUsuarioAtivoMiddleware,
 };

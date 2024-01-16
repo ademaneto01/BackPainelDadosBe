@@ -5,7 +5,8 @@ async function DeletarAgente(req, res) {
 
   try {
     const vinculoUser = await getVinculosUser(userId);
-    if (vinculoUser) {
+
+    if (vinculoUser !== undefined && vinculoUser !== null) {
       deleteVinculoUser(userId);
     }
 
@@ -32,8 +33,10 @@ async function deleteVinculoUser(userId) {
 }
 
 async function deleteUser(userId) {
-  const query = "DELETE FROM agentes_externos WHERE uuid_agente = $1";
-  await connection.query(query, [userId]);
+  const ativo = false;
+  const query =
+    "UPDATE agentes_externos SET ativo = $1 WHERE uuid_agente = $2 RETURNING *";
+  await connection.query(query, [ativo, userId]);
 }
 
 function sendErrorResponse(res, statusCode, message) {

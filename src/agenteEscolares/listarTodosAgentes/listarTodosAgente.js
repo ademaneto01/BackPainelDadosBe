@@ -10,8 +10,9 @@ async function ListarTodosAgentes(req, res) {
 }
 
 async function fetchAgentes() {
-  const query = "SELECT * FROM agentes_externos";
-  const { rows } = await connection.query(query);
+  const ativo = true;
+  const query = "SELECT * FROM agentes_externos WHERE ativo = $1";
+  const { rows } = await connection.query(query, [ativo]);
   return rows;
 }
 

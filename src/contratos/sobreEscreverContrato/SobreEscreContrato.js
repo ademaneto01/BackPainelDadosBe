@@ -70,7 +70,7 @@ async function deactivateContract(uuid_ec) {
 }
 
 async function insertNewContract(contratoData, qtdescolas) {
-  const query = `INSERT INTO entidades_contratuais (nome_simplificado, razao_social, cnpj_cont, cep, endereco, cidade, uf, bairro, complemento, bo_rede, QtdEscolas, ativo, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
+  const query = `INSERT INTO entidades_contratuais (nome_simplificado, razao_social, cnpj_cont, cep, endereco, cidade, uf, bairro, complemento, tipocontrato, valorcontrato, bo_rede, QtdEscolas, ativo, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`;
   const { rows } = await connection.query(query, [
     contratoData.nome_simplificado,
     contratoData.razao_social,
@@ -81,6 +81,8 @@ async function insertNewContract(contratoData, qtdescolas) {
     contratoData.uf,
     contratoData.bairro,
     contratoData.complemento,
+    contratoData.tipocontrato,
+    contratoData.valorcontrato,
     contratoData.bo_rede,
     qtdescolas,
     ATIVO_TRUE,

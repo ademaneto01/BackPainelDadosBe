@@ -20,6 +20,9 @@ async function Login(req, res) {
     if (!user) {
       return sendErrorResponse(res, 404, "Usuário e/ou senha inválido(s)");
     }
+    if (!user.ativo) {
+      return sendErrorResponse(res, 404, "Usuário inativo");
+    }
 
     if (!(await isPasswordValid(senha, user.senha))) {
       return sendErrorResponse(res, 400, "Usuário e/ou senha inválido(s)");

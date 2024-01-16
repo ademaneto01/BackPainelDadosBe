@@ -4,9 +4,9 @@ async function insertEntidadeEscolar(data) {
   const query = `
       INSERT INTO entidades_escolares (
         nome_operacional, cnpj_escola, cep, endereco, cidade, uf, 
-        bairro, complemento, ativo, uuid_ec, instagram, facebook, deleted
+        bairro, complemento, ativo, uuid_ec, instagram, facebook, linkwhats, deleted
       ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
       RETURNING *`;
   const values = [
     data.nome_operacional,
@@ -21,6 +21,7 @@ async function insertEntidadeEscolar(data) {
     data.uuid_ec,
     data.instagram,
     data.facebook,
+    data.linkwhats,
     false,
   ];
 
