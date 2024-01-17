@@ -25,6 +25,7 @@ async function insertAcompanhamento(fields) {
       INSERT INTO acompanhamento_pdg (
         id_ee, 
         id_prof,
+        nome_agente,
         id_user, 
         dataofobservation,
         grade,
@@ -48,11 +49,12 @@ async function insertAcompanhamento(fields) {
         nome_escola,
         deleted
       ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25) 
       RETURNING *`;
   const values = [
     fields.nameSearch,
     fields.educatorsname,
+    fields.nome_agente,
     fields.userId,
     fields.dataofobservation,
     fields.grade,
@@ -87,6 +89,7 @@ function validateRequiredFields(fields) {
   const requiredFields = [
     "nameSearch",
     "educatorsname",
+    "nome_agente",
     "userId",
     "dataofobservation",
     "grade",

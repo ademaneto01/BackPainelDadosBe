@@ -191,6 +191,7 @@ create table acompanhamento_pdg(
   id_prof UUID references agentes_externos(uuid_agente),
   id_user UUID references usuarios(id),
   nome_escola text,
+  nome_agente varchar(100),
   dataofobservation varchar(10),
   grade varchar(5),
   ofstudents text,

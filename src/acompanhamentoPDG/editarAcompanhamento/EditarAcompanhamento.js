@@ -24,6 +24,7 @@ async function updateAcompanhamento(fields) {
     id,
     nameSearch,
     educatorsname,
+    nome_agente,
     userId,
     dataofobservation,
     grade,
@@ -48,11 +49,12 @@ async function updateAcompanhamento(fields) {
   } = fields;
 
   const updateDados =
-    "UPDATE acompanhamento_pdg SET id_ee = $1, id_prof = $2, id_user = $3, dataofobservation = $4, grade = $5, ofstudents = $6, tema = $7, lessonplanbe = $8, cycle = $9, digitalprojector = $10, board = $11, englishcorner = $12, noiselevel = $13, resourceaudioqlty = $14, nglbematerials = $15, lp1lessonplan = $16, lp2proposedgoals = $17, lp3resourcesused = $18, lp4changes = $19, finalcoments = $20, finalized = $21, finalizedtimestamp = $22, nome_escola = $23 WHERE id = $24 RETURNING *";
+    "UPDATE acompanhamento_pdg SET id_ee = $1, id_prof = $2, nome_agente = $3 id_user = $4, dataofobservation = $5, grade = $6, ofstudents = $7, tema = $8, lessonplanbe = $9, cycle = $10, digitalprojector = $11, board = $12, englishcorner = $13, noiselevel = $14, resourceaudioqlty = $15, nglbematerials = $16, lp1lessonplan = $17, lp2proposedgoals = $18, lp3resourcesused = $19, lp4changes = $20, finalcoments = $21, finalized = $22, finalizedtimestamp = $23, nome_escola = $24 WHERE id = $25 RETURNING *";
 
   const { rows } = await connection.query(updateDados, [
     nameSearch,
     educatorsname,
+    nome_agente,
     userId,
     dataofobservation,
     grade,
