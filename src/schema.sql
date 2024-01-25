@@ -15,6 +15,8 @@ create table entidades_contratuais (
     ativo boolean default true,
     bo_rede boolean default false,
     QtdEscolas int,
+    tipocontrato varchar(10),
+    valorcontrato int,
     criado_em timestamp default current_timestamp,
     deleted boolean default false
 );
@@ -31,8 +33,8 @@ create table entidades_escolares (
     uf varchar(2),
     bairro varchar(100),
     complemento varchar(200),
-    instagram varchar(50),
-    facebook varchar(50),
+    instagram varchar(100),
+    facebook varchar(100),
     linkwhats varchar(100),
     ativo boolean default true,
     deleted boolean default false

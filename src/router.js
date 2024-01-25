@@ -59,6 +59,15 @@ router.put(
   "/editarEntidadeContratual",
   contratos.EditarEntidadeContratualMiddleware.EditarEntidadeContratual
 );
+router.put(
+  "/editarAtivoContrato",
+  contratos.EditarAtivoContratoMiddleware.EditarAtivoContrato
+);
+router.put(
+  "/editarAtivoEntidadeEscolar",
+  entidadesEscolares.EditarAtivoEntidadeEscolarMiddleware
+    .EditarAtivoEntidadeEscolar
+);
 
 router.get(
   "/localizarContratos",

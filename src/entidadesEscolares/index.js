@@ -9,6 +9,7 @@ const LocalizarUrlPainelMiddleware = require("./localizarUrlPainel/LocalizarUrlP
 const RegistrarDocEntidadeMiddleware = require("./registrarDocEntidade/RegistrarDocEntidade");
 const listarDocsEntidadeMiddleware = require("./listarDocsEntidade/ListarDocsEntidade");
 const DeletarDocEntidadeMiddleware = require("./deletarDocEntidade/DeletarDocEntidade");
+const EditarAtivoEntidadeEscolarMiddleware = require("./editarAtivoEntidadeEscolar/EditarAtivoEntidadeEscolar");
 module.exports = {
   RegistrarEntidadeEscolarMiddleware,
   EditarEntidadeEscolarMiddleware,
@@ -21,4 +22,5 @@ module.exports = {
   RegistrarDocEntidadeMiddleware,
   listarDocsEntidadeMiddleware,
   DeletarDocEntidadeMiddleware,
+  EditarAtivoEntidadeEscolarMiddleware,
 };
