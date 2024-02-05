@@ -4,8 +4,8 @@ async function updateEntidade(data) {
   const query = `
       UPDATE entidades_escolares 
       SET nome_operacional = $1, cnpj_escola = $2, cep = $3, endereco = $4, cidade = $5, 
-      uf = $6, bairro = $7, complemento = $8, ativo = $9, instagram = $10, facebook = $11, linkwhats = $12
-      WHERE id = $13 RETURNING *`;
+      uf = $6, bairro = $7, complemento = $8, instagram = $9, facebook = $10, linkwhats = $11
+      WHERE id = $12 RETURNING *`;
   const values = [
     data.nome_operacional,
     data.cnpj_escola,
@@ -15,7 +15,6 @@ async function updateEntidade(data) {
     data.uf,
     data.bairro,
     data.complemento,
-    data.ativo,
     data.instagram,
     data.facebook,
     data.linkwhats,

@@ -8,6 +8,7 @@ const LocalizarAgenteIdMiddleware = require("./localizarAgenteId/localizarAgente
 const ListarVinculoAgenteMiddleware = require("./listarVinculoAgente/listarVinculoAgente");
 const DeletarVinculoAgenteMiddleware = require("./deletarVinculoAgente/deletarVinculoAgente");
 const EditarVinculoAgenteMiddleware = require("./editarVinculoAgente/editarVinculoAgente");
+const ListarAgentesRelacionadoEscolaIsProfMiddleware = require("./listarAgenteRelacionadoEscolaIsProf/ListarAgenteRelacionadoEscolaIsProf");
 module.exports = {
   RegistrarAgenteMiddleware,
   VincularAgenteMiddleware,
@@ -19,4 +20,5 @@ module.exports = {
   ListarVinculoAgenteMiddleware,
   DeletarVinculoAgenteMiddleware,
   EditarVinculoAgenteMiddleware,
+  ListarAgentesRelacionadoEscolaIsProfMiddleware,
 };

@@ -184,6 +184,11 @@ router.get(
   agentesExternos.ListarAgentesRelacionadoEscolaMiddleware
     .ListarAgentesRelacionadoEscola
 );
+router.get(
+  "/ListarAgentesRelacionadoEscolaIsProf",
+  agentesExternos.ListarAgentesRelacionadoEscolaIsProfMiddleware
+    .ListarAgentesRelacionadoEscolaIsProf
+);
 router.put(
   "/editarAgente",
   agentesExternos.EditarAgenteMiddleware.EditarAgente
