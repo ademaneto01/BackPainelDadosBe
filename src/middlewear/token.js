@@ -5,7 +5,11 @@ const jwtSecret = require("../jwtSecret");
 async function validateToken(req, res, next) {
   const { authorization } = req.headers;
 
-  if (!authorization || authorization === "Bearer") {
+  if (
+    !authorization ||
+    !authorization.startsWith("Bearer ") ||
+    authorization.split(" ")[1] === ""
+  ) {
     return res.status(401).json({
       mensagem:
         "Para acessar este recurso um token de autenticação válido deve ser enviado.",
