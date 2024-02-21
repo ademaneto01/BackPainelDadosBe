@@ -17,8 +17,10 @@ async function ListarInfosContrato(req, res) {
 }
 
 async function fetchContractById(id) {
-  const query = "SELECT * FROM infos_contrato WHERE uuid_ec = $1";
-  const { rows } = await connection.query(query, [id]);
+  const ativo = true;
+  const query =
+    "SELECT * FROM infos_contrato WHERE uuid_ec = $1 AND ativo = $2";
+  const { rows } = await connection.query(query, [id, ativo]);
 
   return rows.length ? rows[0] : null;
 }
