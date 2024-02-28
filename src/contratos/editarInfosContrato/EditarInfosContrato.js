@@ -39,12 +39,12 @@ function validateRequiredFields(fields) {
 }
 
 async function updateInfosContract(fields) {
+  const newTimeStamp = new Date();
   const {
     id,
     ano_assinatura,
     ano_operacao,
     ano_termino,
-    ativo,
     resp_frete,
     pedido_min,
     reajuste_igpm_ipca,
@@ -52,18 +52,19 @@ async function updateInfosContract(fields) {
     tipoexclusividade,
     incentivos,
     qtdbolsas,
+    tipocontrato,
+    valorcontrato,
     repasse,
     comentario,
   } = fields;
 
   const updateDados =
-    "UPDATE infos_contrato SET ano_assinatura = $1, ano_operacao = $2, ano_termino = $3, ativo = $4, resp_frete = $5, pedido_min = $6, reajuste_igpm_ipca = $7, exclusividade = $8, tipoexclusividade = $9, incentivos = $10, qtdbolsas = $11, repasse = $12, comentario = $13  WHERE id = $14 RETURNING *";
+    "UPDATE infos_contrato SET ano_assinatura = $1, ano_operacao = $2, ano_termino = $3, resp_frete = $4, pedido_min = $5, reajuste_igpm_ipca = $6, exclusividade = $7, tipoexclusividade = $8, incentivos = $9, qtdbolsas = $10, tipocontrato = $11, valorcontrato = $12, repasse = $13, comentario = $14, edited_on = $15  WHERE id = $16 RETURNING *";
 
   const { rows } = await connection.query(updateDados, [
     ano_assinatura,
     ano_operacao,
     ano_termino,
-    ativo,
     resp_frete,
     pedido_min,
     reajuste_igpm_ipca,
@@ -71,8 +72,11 @@ async function updateInfosContract(fields) {
     tipoexclusividade,
     incentivos,
     qtdbolsas,
+    tipocontrato,
+    valorcontrato,
     repasse,
     comentario,
+    newTimeStamp,
     id,
   ]);
 

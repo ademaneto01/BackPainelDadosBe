@@ -55,13 +55,11 @@ async function updateContract(fields) {
     uf,
     bairro,
     complemento,
-    tipocontrato,
-    valorcontrato,
     bo_rede,
   } = fields;
 
   const updateDados =
-    "UPDATE entidades_contratuais SET nome_simplificado = $1, razao_social = $2, cnpj_cont = $3, cep = $4, endereco = $5, cidade = $6, uf = $7, bairro = $8, complemento = $9, tipocontrato = $10, valorcontrato = $11, bo_rede = $12 WHERE id = $13 RETURNING *";
+    "UPDATE entidades_contratuais SET nome_simplificado = $1, razao_social = $2, cnpj_cont = $3, cep = $4, endereco = $5, cidade = $6, uf = $7, bairro = $8, complemento = $9, bo_rede = $10 WHERE id = $11 RETURNING *";
 
   const { rows } = await connection.query(updateDados, [
     nome_simplificado,
@@ -73,8 +71,6 @@ async function updateContract(fields) {
     uf,
     bairro,
     complemento,
-    tipocontrato,
-    valorcontrato,
     bo_rede,
     id,
   ]);

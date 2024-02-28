@@ -15,8 +15,6 @@ create table entidades_contratuais (
     ativo boolean default true,
     bo_rede boolean default false,
     QtdEscolas int,
-    tipocontrato varchar(10),
-    valorcontrato int,
     criado_em timestamp default current_timestamp,
     deleted boolean default false
 );
@@ -82,7 +80,10 @@ create table infos_contrato (
     incentivos varchar[],
     qtdbolsas int,
     repasse varchar(10),
-    comentario text
+    tipocontrato varchar(10),
+    valorcontrato int,
+    comentario text,
+    edited_on timestamp default current_timestamp
 );
 
 drop table if exists docs_contrato;

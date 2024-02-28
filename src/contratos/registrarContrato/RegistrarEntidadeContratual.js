@@ -52,15 +52,13 @@ async function insertContract(fields) {
     uf,
     bairro,
     complemento,
-    tipocontrato,
-    valorcontrato,
     bo_rede,
   } = fields;
   const deleted = false;
   const qtdEscolas = 0;
 
   const query =
-    "INSERT INTO entidades_contratuais (nome_simplificado, razao_social, cnpj_cont, cep, endereco, cidade, uf, bairro, complemento, tipocontrato, valorcontrato, bo_rede, deleted, qtdescolas) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *";
+    "INSERT INTO entidades_contratuais (nome_simplificado, razao_social, cnpj_cont, cep, endereco, cidade, uf, bairro, complemento, bo_rede, deleted, qtdescolas) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *";
 
   const {
     rows: [registeredContract],
@@ -74,8 +72,6 @@ async function insertContract(fields) {
     uf,
     bairro,
     complemento,
-    tipocontrato,
-    valorcontrato,
     bo_rede,
     deleted,
     qtdEscolas,
