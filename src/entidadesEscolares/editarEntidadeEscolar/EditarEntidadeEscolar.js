@@ -4,8 +4,8 @@ async function updateEntidade(data) {
   const query = `
       UPDATE entidades_escolares 
       SET nome_operacional = $1, cnpj_escola = $2, cep = $3, endereco = $4, cidade = $5, 
-      uf = $6, bairro = $7, complemento = $8, instagram = $9, facebook = $10, linkwhats = $11
-      WHERE id = $12 RETURNING *`;
+      uf = $6, bairro = $7, complemento = $8, instagram = $9, facebook = $10, linkwhats = $11, inep = $12
+      WHERE id = $13 RETURNING *`;
   const values = [
     data.nome_operacional,
     data.cnpj_escola,
@@ -18,6 +18,7 @@ async function updateEntidade(data) {
     data.instagram,
     data.facebook,
     data.linkwhats,
+    data.inep,
     data.id,
   ];
 
@@ -68,6 +69,7 @@ async function EditarEntidadeEscolar(req, res) {
     complemento,
     url_dados,
     id_usuario_pdg,
+    inep,
   } = req.body;
 
   if (
@@ -79,7 +81,8 @@ async function EditarEntidadeEscolar(req, res) {
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento
+    !complemento ||
+    !inep
   ) {
     return res
       .status(400)

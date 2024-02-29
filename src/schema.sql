@@ -34,6 +34,7 @@ create table entidades_escolares (
     instagram varchar(100),
     facebook varchar(100),
     linkwhats varchar(100),
+    inep int,
     ativo boolean default true,
     deleted boolean default false
 );

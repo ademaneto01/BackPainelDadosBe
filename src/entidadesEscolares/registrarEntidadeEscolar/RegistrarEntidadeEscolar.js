@@ -4,9 +4,9 @@ async function insertEntidadeEscolar(data) {
   const query = `
       INSERT INTO entidades_escolares (
         nome_operacional, cnpj_escola, cep, endereco, cidade, uf, 
-        bairro, complemento,  uuid_ec, instagram, facebook, linkwhats, deleted
+        bairro, complemento,  uuid_ec, instagram, facebook, linkwhats, inep, deleted
       ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
       RETURNING *`;
   const values = [
     data.nome_operacional,
@@ -21,6 +21,7 @@ async function insertEntidadeEscolar(data) {
     data.instagram,
     data.facebook,
     data.linkwhats,
+    data.inep,
     false,
   ];
 
@@ -64,6 +65,7 @@ async function RegistrarEntidadeEscolar(req, res) {
     uuid_ec,
     url_dados,
     id_usuario_pdg,
+    inep,
   } = req.body;
 
   if (
@@ -74,7 +76,8 @@ async function RegistrarEntidadeEscolar(req, res) {
     !cidade ||
     !uf ||
     !bairro ||
-    !complemento
+    !complemento ||
+    !inep
   ) {
     return res
       .status(400)
