@@ -6,7 +6,11 @@ async function ListarAgentesRelacionadoEscola(req, res) {
     const agentesData = await fetchAgentes(id);
     return res.status(200).json(agentesData);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(
+      res,
+      400,
+      "FalhaListagem ListarAgentesRelacionadoEscola"
+    );
   }
 }
 

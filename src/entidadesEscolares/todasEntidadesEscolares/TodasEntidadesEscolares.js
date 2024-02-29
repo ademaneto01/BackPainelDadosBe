@@ -12,7 +12,7 @@ async function TodasEntidadesEscolares(req, res) {
     const EntidadesEscolaresData = await fetchAllEntidadesEscolares();
     return res.status(200).json(EntidadesEscolaresData);
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json({ mensagem: "Falha TodasEntidadesEscolares" });
   }
 }
 

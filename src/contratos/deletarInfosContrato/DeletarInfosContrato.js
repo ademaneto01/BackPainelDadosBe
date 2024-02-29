@@ -10,7 +10,7 @@ async function DeletarInfosContrato(req, res) {
       .status(204)
       .json({ mensagem: "Infos contrato deletada com sucesso..." });
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha DeletarInfosContrato");
   }
 }
 

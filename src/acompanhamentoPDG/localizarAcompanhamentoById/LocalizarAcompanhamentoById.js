@@ -27,7 +27,9 @@ async function LocalizarAcompanhamentoById(req, res) {
 
     return res.status(200).json(entidadesEscolares);
   } catch (error) {
-    return res.status(500).json({ mensagem: error });
+    return res
+      .status(500)
+      .json({ mensagem: "Falha LocalizarAcompanhamentoById" });
   }
 }
 

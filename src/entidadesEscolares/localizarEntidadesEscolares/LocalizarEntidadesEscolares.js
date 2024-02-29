@@ -16,7 +16,9 @@ async function LocalizarEntidadesEscolares(req, res) {
     const EntidadesEscolaresData = await fetchEntidadesEscolares(id);
     return res.status(200).json(EntidadesEscolaresData);
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res
+      .status(400)
+      .json({ mensagem: "Falha LocalizarEntidadesEscolares" });
   }
 }
 

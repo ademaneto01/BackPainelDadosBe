@@ -22,7 +22,7 @@ async function RegistrarDocEntidade(req, res) {
     }
     return res.status(201).json([registredDocEntidade]);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha RegistrarDocEntidade");
   }
 }
 

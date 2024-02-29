@@ -31,7 +31,7 @@ async function Login(req, res) {
     const tokenData = generateUserToken(user);
     return res.status(200).json(tokenData);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha Login");
   }
 }
 

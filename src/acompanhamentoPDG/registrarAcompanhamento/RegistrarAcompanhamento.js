@@ -16,7 +16,7 @@ async function RegistrarAcompanhamento(req, res) {
 
     return res.status(201).json([registeredAcompanhamento]);
   } catch (error) {
-    return res.status(400).json(error.message);
+    return sendErrorResponse(res, 400, "Falha RegistrarAcompanhamento");
   }
 }
 

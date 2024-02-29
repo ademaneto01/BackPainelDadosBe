@@ -7,12 +7,16 @@ async function ListarDocsContrato(req, res) {
     const contractData = await fetchDocstByIdContrato(id);
 
     if (!contractData) {
-      return sendErrorResponse(res, 400, "Ainda não existe Docs cadastrado...");
+      return sendErrorResponse(
+        res,
+        400,
+        "Ainda não existem Docs cadastrado..."
+      );
     }
 
     return res.status(200).json(contractData);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha ListarDocsContrato");
   }
 }
 

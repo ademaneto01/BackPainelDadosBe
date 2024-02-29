@@ -6,7 +6,7 @@ async function ListarVinculoAgente(req, res) {
     const agentesData = await fetchVinculoAgentes(userId, id_ee);
     return res.status(200).json(agentesData);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "FalhaListagem ListarVinculoAgente");
   }
 }
 

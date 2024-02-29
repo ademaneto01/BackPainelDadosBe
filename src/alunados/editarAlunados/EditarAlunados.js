@@ -14,8 +14,7 @@ async function EditarAlunados(req, res) {
 
     return res.status(201).json(registredAlunado);
   } catch (error) {
-    console.log(error);
-    return res.status(400).json(error.message);
+    return res.status(400).json({ mensagem: "Falha editarAlunados" });
   }
 }
 

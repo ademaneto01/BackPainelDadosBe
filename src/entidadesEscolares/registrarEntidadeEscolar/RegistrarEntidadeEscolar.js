@@ -92,7 +92,7 @@ async function RegistrarEntidadeEscolar(req, res) {
 
     return res.status(201).json([registredEntidadesEscolares]);
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json({ mensagem: "Falha RegistrarEntidadeEscolar" });
   }
 }
 

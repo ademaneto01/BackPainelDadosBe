@@ -65,7 +65,7 @@ async function RegistrarAcompanhamentoCriteria(req, res) {
 
     return res.status(201).json([registeredAcompanhamentoCriteria]);
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json("Falha RegistrarCriteria");
   }
 }
 

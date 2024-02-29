@@ -12,7 +12,7 @@ async function ListarDocsEntidade(req, res) {
 
     return res.status(200).json(docsEntidadetData);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha ListarDocsEntidade");
   }
 }
 

@@ -17,7 +17,7 @@ async function ListarIndividualAlunados(req, res) {
 
     return res.status(200).json(alunadosIndividual);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha ListarIndividualAlunados");
   }
 }
 

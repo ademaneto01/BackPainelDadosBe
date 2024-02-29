@@ -40,7 +40,7 @@ async function RegistrarUsuario(req, res) {
     delete registredUser.senha;
     return res.status(201).json([registredUser]);
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json({ mensagem: "Falha RegistrarUsuario" });
   }
 }
 

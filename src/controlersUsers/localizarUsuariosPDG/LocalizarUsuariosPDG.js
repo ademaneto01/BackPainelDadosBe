@@ -5,7 +5,7 @@ async function LocalizarUsuariosPDG(req, res) {
     const users = await getUsersWithPedagogicoProfile();
     return res.status(200).json(users);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha LocalizarUsuariosPDG");
   }
 }
 

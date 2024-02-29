@@ -22,7 +22,7 @@ async function RegistrarInfosContrato(req, res) {
     }
     return res.status(201).json([registeredInfosContract]);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha RegistrarInfosContrato");
   }
 }
 

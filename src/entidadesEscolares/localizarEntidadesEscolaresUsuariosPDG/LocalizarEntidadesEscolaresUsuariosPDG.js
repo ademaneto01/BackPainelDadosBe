@@ -24,8 +24,8 @@ async function LocalizarEntidadesEscolaresUsuariosPDG(req, res) {
     return res.status(200).json(entidadesEscolares);
   } catch (error) {
     return res
-      .status(500)
-      .json({ mensagem: "Erro ao buscar entidades escolares." });
+      .status(400)
+      .json({ mensagem: "Falha LocalizarEntidadesEscolaresUsuariosPDG" });
   }
 }
 

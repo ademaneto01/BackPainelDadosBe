@@ -20,7 +20,7 @@ async function LocalizarUsuario(req, res) {
 
     return res.status(200).json([userData]);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha LocalizarUsuario");
   }
 }
 

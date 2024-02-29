@@ -11,7 +11,7 @@ async function LocalizarUrlPainel(req, res) {
 
     return res.status(200).json(url_dados);
   } catch (error) {
-    return error.message;
+    return res.status(400).json({ mensagem: "Falha LocalizarUrlPainel" });
   }
 }
 

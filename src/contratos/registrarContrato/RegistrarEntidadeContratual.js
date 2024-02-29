@@ -21,7 +21,7 @@ async function RegistrarEntidadeContratual(req, res) {
     }
     return res.status(201).json([registeredContract]);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha RegistrarEntidadeContratual");
   }
 }
 

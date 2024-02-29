@@ -10,7 +10,7 @@ async function DeletarAlunados(req, res) {
       .status(200)
       .json({ mensagem: "Turmas e Alunos deletados com sucesso..." });
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha DeletarAlunados");
   }
 }
 

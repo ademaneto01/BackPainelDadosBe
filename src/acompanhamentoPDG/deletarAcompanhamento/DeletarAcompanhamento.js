@@ -12,7 +12,7 @@ async function DeletarAcompanhamento(req, res) {
       .status(204)
       .json({ mensagem: "Acompanhamento deletado com sucesso..." });
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json({ mensagem: "Falha DeletarAcompanhamento" });
   }
 }
 

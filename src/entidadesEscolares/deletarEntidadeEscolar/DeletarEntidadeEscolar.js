@@ -54,9 +54,7 @@ async function DeletarEntidadeEscolar(req, res) {
       .status(204)
       .json({ mensagem: "Entidade deletada com sucesso..." });
   } catch (error) {
-    return res
-      .status(400)
-      .json({ mensagem: "Erro ao deletar a entidade escolar." });
+    return res.status(400).json({ mensagem: "Falha DeletarEntidadeEscolar." });
   }
 }
 

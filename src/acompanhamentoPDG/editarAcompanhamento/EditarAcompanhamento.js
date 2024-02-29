@@ -83,7 +83,9 @@ async function updateAcompanhamento(fields) {
 }
 
 function sendErrorResponse(res, statusCode, message) {
-  return res.status(statusCode).json({ mensagem: message });
+  return res
+    .status(statusCode)
+    .json({ mensagem: "Falha EditarAcompanhamento" });
 }
 
 module.exports = {

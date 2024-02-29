@@ -40,7 +40,7 @@ async function LocalizarEntidadeEscolar(req, res) {
 
     return res.status(200).json([entidade]);
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json({ mensagem: "Falha LocalizarEntidadeEscolar" });
   }
 }
 

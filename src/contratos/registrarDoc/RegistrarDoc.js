@@ -22,7 +22,7 @@ async function RegistrarDoc(req, res) {
     }
     return res.status(201).json([registredDoc]);
   } catch (error) {
-    return sendErrorResponse(res, 400, error.message);
+    return sendErrorResponse(res, 400, "Falha RegistrarDoc");
   }
 }
 
