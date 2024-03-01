@@ -2,7 +2,6 @@ const connection = require("../../connection");
 
 const ATIVO_TRUE = true;
 const TEMP_TRUE = true;
-const ATIVO_FALSE = false;
 
 async function SobreEscreverContrato(req, res) {
   const contratoData = req.body;
@@ -19,8 +18,12 @@ async function SobreEscreverContrato(req, res) {
 
 async function setInfoOldContract(uuid_ec) {
   const query =
-    "UPDATE infos_contrato SET temp = $1 WHERE uuid_ec = $2 RETURNING *";
-  const { rows } = await connection.query(query, [TEMP_TRUE, uuid_ec]);
+    "UPDATE infos_contrato SET temp = $1 WHERE uuid_ec = $2 AND ativo = $3 RETURNING *";
+  const { rows } = await connection.query(query, [
+    TEMP_TRUE,
+    uuid_ec,
+    ATIVO_TRUE,
+  ]);
   return rows;
 }
 
