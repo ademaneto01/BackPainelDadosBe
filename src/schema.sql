@@ -84,6 +84,7 @@ create table infos_contrato (
     tipocontrato varchar(10),
     valorcontrato int,
     comentario text,
+    temp boolean default false,
     edited_on timestamp default current_timestamp
 );
 

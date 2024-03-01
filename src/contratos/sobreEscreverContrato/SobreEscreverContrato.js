@@ -1,6 +1,7 @@
 const connection = require("../../connection");
 
 const ATIVO_TRUE = true;
+const TEMP_TRUE = true;
 const ATIVO_FALSE = false;
 
 async function SobreEscreverContrato(req, res) {
@@ -8,9 +9,9 @@ async function SobreEscreverContrato(req, res) {
 
   try {
     await setInfoOldContract(contratoData.uuid_ec);
-    await insertNewInfoContract(contratoData.uuid_ec);
+    const data = await insertNewInfoContract(contratoData.uuid_ec);
 
-    return res.status(200).json(activoInfo);
+    return res.status(200).json([data]);
   } catch (error) {
     return res.status(400).json({ mensagem: "Falha SobreEscreverContrato" });
   }
@@ -18,8 +19,8 @@ async function SobreEscreverContrato(req, res) {
 
 async function setInfoOldContract(uuid_ec) {
   const query =
-    "UPDATE infos_contrato SET ativo = $1 WHERE uuid_ec = $2 RETURNING *";
-  const { rows } = await connection.query(query, [ATIVO_FALSE, uuid_ec]);
+    "UPDATE infos_contrato SET temp = $1 WHERE uuid_ec = $2 RETURNING *";
+  const { rows } = await connection.query(query, [TEMP_TRUE, uuid_ec]);
   return rows;
 }
 

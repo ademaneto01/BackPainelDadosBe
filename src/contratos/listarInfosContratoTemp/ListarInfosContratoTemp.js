@@ -1,6 +1,6 @@
 const connection = require("../../connection");
 
-async function ListarInfosContrato(req, res) {
+async function ListarInfosContratoTemp(req, res) {
   const { id } = req.query;
 
   try {
@@ -17,11 +17,9 @@ async function ListarInfosContrato(req, res) {
 }
 
 async function fetchContractById(id) {
-  const ativo = true;
-  const temp = false;
-  const query =
-    "SELECT * FROM infos_contrato WHERE uuid_ec = $1 AND ativo = $2 AND temp = $3";
-  const { rows } = await connection.query(query, [id, ativo, temp]);
+  const temp = true;
+  const query = "SELECT * FROM infos_contrato WHERE uuid_ec = $1 AND temp = $2";
+  const { rows } = await connection.query(query, [id, temp]);
 
   return rows.length ? rows[0] : null;
 }
@@ -31,5 +29,5 @@ function sendErrorResponse(res, statusCode, message) {
 }
 
 module.exports = {
-  ListarInfosContrato,
+  ListarInfosContratoTemp,
 };

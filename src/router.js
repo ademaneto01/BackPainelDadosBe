@@ -96,6 +96,11 @@ router.get(
   contratos.ListarInfosContratoMiddleware.ListarInfosContrato
 );
 
+router.get(
+  "/listarInfosContratoTemp",
+  contratos.ListarInfosContratoTempMiddleware.ListarInfosContratoTemp
+);
+
 router.post(
   "/registrarInfosContrato",
   contratos.RegistrarInfosContratoMiddleware.RegistrarInfosContrato
@@ -107,6 +112,11 @@ router.delete(
 router.put(
   "/editarInfosContrato",
   contratos.EditarInfosContratoMiddleware.EditarInfosContrato
+);
+
+router.put(
+  "/editarInfosContratoTemp",
+  contratos.EditarInfosContratoTempMiddleware.EditarInfosContratoTemp
 );
 /////////////////////ENTIDADES ESCOLARES ///////////////////
 
