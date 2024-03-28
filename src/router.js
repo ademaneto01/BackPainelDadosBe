@@ -7,6 +7,9 @@ const agentesExternos = require("./agenteEscolares/index");
 const alunados = require("./alunados/index");
 const acompanhamentoPDG = require("./acompanhamentoPDG/index");
 const validateToken = require("./middlewear/token");
+const {
+  default: MetaBaseIframe,
+} = require("./entidadesEscolares/metaBaseIframe/MetaBaseIframe");
 
 const router = Router();
 
@@ -123,6 +126,11 @@ router.put(
 router.post(
   "/registrarEntidadeEscolar",
   entidadesEscolares.RegistrarEntidadeEscolarMiddleware.RegistrarEntidadeEscolar
+);
+
+router.get(
+  "/metaBaseIframe",
+  entidadesEscolares.MetaBaseIframeMiddleware.MetaBaseIframe
 );
 
 router.put(

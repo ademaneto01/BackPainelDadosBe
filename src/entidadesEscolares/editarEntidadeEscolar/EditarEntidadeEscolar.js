@@ -41,6 +41,7 @@ async function locateURLPainelDados(id) {
   const result = await connection.query(query, [id]);
   return result.rows;
 }
+
 async function manageUsuarioPDG(id, id_usuario_pdg) {
   const queryFindUserPDG = "SELECT * FROM usuarios_pdg WHERE id_ee = $1";
   await connection.query(queryFindUserPDG, [id]);

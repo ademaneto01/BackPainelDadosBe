@@ -10,6 +10,7 @@ const RegistrarDocEntidadeMiddleware = require("./registrarDocEntidade/Registrar
 const listarDocsEntidadeMiddleware = require("./listarDocsEntidade/ListarDocsEntidade");
 const DeletarDocEntidadeMiddleware = require("./deletarDocEntidade/DeletarDocEntidade");
 const EditarAtivoEntidadeEscolarMiddleware = require("./editarAtivoEntidadeEscolar/EditarAtivoEntidadeEscolar");
+const MetaBaseIframeMiddleware = require("./metaBaseIframe/MetaBaseIframe");
 module.exports = {
   RegistrarEntidadeEscolarMiddleware,
   EditarEntidadeEscolarMiddleware,
@@ -23,4 +24,5 @@ module.exports = {
   listarDocsEntidadeMiddleware,
   DeletarDocEntidadeMiddleware,
   EditarAtivoEntidadeEscolarMiddleware,
+  MetaBaseIframeMiddleware,
 };
