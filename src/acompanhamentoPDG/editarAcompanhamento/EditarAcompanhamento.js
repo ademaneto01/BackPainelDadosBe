@@ -1,8 +1,13 @@
 const connection = require("../../connection");
+const criarArquivo = require("../../logger/logger");
 
 async function EditarAcompanhamento(req, res) {
   const fields = req.body;
-
+  try {
+    await criarArquivo('EditarAcompanhamento', req.body.userId);
+  } catch (error) {
+    sendErrorResponse(res, 400, `Error no logger ${error.message}`);
+  }
   try {
     const contractData = await updateAcompanhamento(fields);
     if (!contractData) {

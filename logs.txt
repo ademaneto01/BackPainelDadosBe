@@ -1,10 +1,6 @@
-Texto: RegistrarAcompanhamento
-Data: 4/12/2024, 8:23:20 AM
-UserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
-Texto: RegistrarAcompanhamento
-Data: 4/12/2024, 8:23:49 AM
-UserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
-Texto: RegistrarAcompanhamento
-Data: 4/12/2024, 8:26:24 AM
-UserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
-
+Texto: DeletarAcompanhamentoData: 2024-04-12T15:23:46.234ZUserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
+Texto: DeletarAcompanhamentoData: 2024-04-12T15:23:47.998ZUserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
+Texto: DeletarAcompanhamento Data: 2024-04-12T15:24:05.238Z UserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
+[04/12/2024 03:31:59 PM UTC] DeletarAcompanhamento UserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
+[04/12/2024 03:38:35 PM UTC] RegistrarAcompanhamento UserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
+[04/12/2024 12:39:37 PM] DeletarAcompanhamento UserID: ba62a5ac-5796-4a25-9b4d-da9db01931dd
