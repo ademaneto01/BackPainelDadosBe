@@ -1,9 +1,16 @@
 const connection = require("../../connection");
 
+const criarArquivo = require("../../logger/logger");
+
 const deleted_status = false;
 
 async function RegistrarAcompanhamento(req, res) {
   const fields = req.body;
+  try {
+    await criarArquivo('RegistrarAcompanhamento', req.body.userId);
+  } catch (error) {
+    sendErrorResponse(res, 400, `Error no logger ${error.message}`);
+  }
   if (!validateRequiredFields(fields)) {
     return sendErrorResponse(
       res,
