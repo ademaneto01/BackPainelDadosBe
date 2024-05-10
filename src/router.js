@@ -6,6 +6,7 @@ const entidadesEscolares = require("./entidadesEscolares/index");
 const agentesExternos = require("./agenteEscolares/index");
 const alunados = require("./alunados/index");
 const acompanhamentoPDG = require("./acompanhamentoPDG/index");
+const ocorrencias = require("./ocorrencias/index");
 const validateToken = require("./middlewear/token");
 const {
   default: MetaBaseIframe,
@@ -300,5 +301,10 @@ router.get(
   "/LocalizarCriteriaById",
   acompanhamentoPDG.LocalizarAcompanhamentoCriteriaByIdMiddleware
     .LocalizarAcompanhamentoCriteriaById
+);
+
+router.post(
+  "/registrarOcorrencia",
+  ocorrencias.RegistrarOcorrenciaMiddleware.RegistrarOcorrencia
 );
 module.exports = router;
