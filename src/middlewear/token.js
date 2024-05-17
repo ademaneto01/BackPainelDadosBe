@@ -39,7 +39,9 @@ async function validateToken(req, res, next) {
 
     next();
   } catch (error) {
-    return res.status(400).json({ mensagem: error.message });
+    return res
+      .status(400)
+      .json({ mensagem: "Faça Log-out e, em seguida, faça Login novamente." });
   }
 }
 
