@@ -42,9 +42,9 @@ async function insertUserAgente(fields) {
     canal,
     confidencial,
   } = fields;
-  console.log(fields);
+
   const query =
-    "INSERT INTO ocorrencia (texto_ocorrencia, tipo, canal, confidencial, user_escola, id_user, id_ee) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+    "INSERT INTO ocorrencias (texto_ocorrencia, tipo, canal, confidencial, user_escola, id_user, id_ee) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
 
   const {
     rows: [registrarOcorrencia],
