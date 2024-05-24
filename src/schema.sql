@@ -247,11 +247,14 @@ create table acompanhamento_pdg_criteria(
 
 );
 
-create table ocorrencia (
+create table ocorrencias (
     id_ocorrencia UUID default uuid_generate_v4() primary key,
     texto_ocorrencia text,
     user_escola UUID[] DEFAULT ARRAY[]::UUID[],
     id_user UUID references usuarios(id),
     id_ee UUID references entidades_escolares(id),
+    canal VARCHAR(50),
+    tipo VARCHAR(50),
+    confidencial boolean,
     criado_em timestamp default current_timestamp
 );
